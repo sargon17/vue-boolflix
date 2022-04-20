@@ -54,13 +54,17 @@ export default {
 @import "../styles/general.scss";
 
 .header {
-  //   width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   min-height: 68px;
   height: 68px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 32px;
+  z-index: 1;
 
   &__navigation {
     display: flex;

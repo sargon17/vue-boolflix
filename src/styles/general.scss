@@ -4,6 +4,7 @@
   font-family: $bf-font-family;
   color: $bf-text-color;
   font-weight: $bf-text-thin;
+  font-size: 12px;
 }
 
 .icon-btn {
@@ -26,4 +27,34 @@
   &:hover {
     background-color: $bf-background-color-transparent;
   }
+}
+
+.btn {
+  border: none;
+  border-radius: $bf-border-radius-btn;
+  padding: 0.4rem 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: $bf-text-size-small;
+  font-weight: $bf-text-bold;
+  cursor: pointer;
+  transition: $bf-transition;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.main-btn {
+  background-color: #fff;
+  color: #000;
+}
+.secondary-btn {
+  background-color: $bf-secondary-btn-color;
+  color: #fff;
 }

@@ -1,8 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap");
 
 $bf-background-color: #141414;
-$bf-background-color-transparent: #282828c2;
+$bf-background-color-transparent: #e2e2e225;
 $bf-netflix-color: #e50914;
+$bf-secondary-btn-color: rgba(255, 255, 255, 0.5);
 
 $bf-text-color: #fff;
 $bf-font-family: "Open Sans", sans-serif;
@@ -13,5 +14,6 @@ $bf-text-size-small: 16px;
 $bf-text-size-medium: 20px;
 
 $bf-border-radius: 10px;
+$bf-border-radius-btn: 4px;
 
 $bf-transition: 0.3s ease-in-out;
