@@ -7,9 +7,13 @@
       <div class="card-info-bg"></div>
       <div class="card-info__text">
         <h2 class="card-info__text-title">{{ title }}</h2>
-        <h6 class="card-info__text-subtitle">Subtitle</h6>
+        <h6 class="card-info__text-subtitle" v-if="isTitlesDifferent()">
+          {{ original_title }}
+        </h6>
         <div class="card-info__additional">
-          <h6 class="card-info__additional-valutation">voto : 5</h6>
+          <div class="card-info__text-valutation">
+            <StarsValutation :vote_average="vote_average" />
+          </div>
           <p class="card-info__additional-lang">lang</p>
         </div>
       </div>
@@ -18,8 +22,13 @@
 </template>
 
 <script>
+import StarsValutation from "./StarsValutation.vue";
+
 export default {
   name: "CardComponent",
+  components: {
+    StarsValutation,
+  },
   props: {
     title: {
       type: String,
@@ -29,10 +38,21 @@ export default {
       type: String,
       required: true,
     },
+    vote_average: {
+      type: Number,
+      required: true,
+    },
+    original_title: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
     getPoster(poster) {
       return `https://image.tmdb.org/t/p/w780${poster}`;
+    },
+    isTitlesDifferent() {
+      return this.title != this.original_title;
     },
   },
 };
@@ -102,22 +122,24 @@ export default {
     &__text {
       color: #fff;
       position: absolute;
-      bottom: 0;
+      bottom: 30%;
       left: 2%;
-      width: 100%;
+      width: 96%;
       z-index: 2;
       padding-left: 2px;
+      transform: translateY(50%);
 
       &-title {
         font-size: $bf-text-size-medium;
         font-weight: $bf-text-bold;
         transition: $bf-transition;
+        padding-bottom: 2px;
       }
       &-subtitle {
         font-size: $bf-text-size-xSmall;
-        font-weight: $bf-text-bold;
-        margin-bottom: 50px;
+        font-weight: $bf-text-thin;
         transition: $bf-transition;
+        padding-bottom: 5px;
       }
 
       .card-info__additional {
@@ -126,11 +148,7 @@ export default {
         align-items: center;
         gap: 0.5rem;
         transition: $bf-transition;
-        position: absolute;
-        width: 100%;
-        height: 20px;
-        bottom: 2px;
-        left: 0;
+        justify-content: space-between;
       }
     }
   }

@@ -6,10 +6,18 @@
     </div>
     <div class="items-list__card-list">
       <CardComponent
-        v-for="{ title, id, poster_path } in movieList"
+        v-for="{
+          title,
+          id,
+          poster_path,
+          vote_average,
+          original_title,
+        } in movieList"
         :title="title"
         :key="id"
         :poster="poster_path"
+        :vote_average="vote_average"
+        :original_title="original_title"
       />
     </div>
   </div>

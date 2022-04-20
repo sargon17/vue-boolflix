@@ -22,8 +22,8 @@ export default {
     };
   },
   mounted() {
-    this.getElementsList("movie/popular", this.popularMovies, "en-US");
-    this.getElementsList("trending/all/week", this.trendingAllWeek, "en-US");
+    this.getElementsList("movie/popular", this.popularMovies, "it-IT");
+    this.getElementsList("trending/all/week", this.trendingAllWeek, "it-IT");
   },
   methods: {
     getElementsList(filter, elementsList, language) {
@@ -33,12 +33,15 @@ export default {
         )
         .then((response) => {
           this.results = response.data.results;
+          console.log(this.results);
           this.results.forEach((movie) => {
-            if (movie.poster_path) {
+            if (movie.poster_path && movie.title) {
               elementsList.push({
                 title: movie.title,
                 id: movie.id,
                 poster_path: movie.poster_path,
+                vote_average: movie.vote_average,
+                original_title: movie.original_title,
               });
             }
           });
