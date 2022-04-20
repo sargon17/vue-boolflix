@@ -1,13 +1,20 @@
 <template>
   <div id="app">
-    <h1>HEllo World</h1>
+    <Header />
+    <Hero />
   </div>
 </template>
 
 <script>
+import Header from "./components/HeaderComponent.vue";
+import Hero from "./components/HeroComponent.vue";
+
 export default {
   name: "App",
-  components: {},
+  components: {
+    Header,
+    Hero,
+  },
 };
 </script>
 
