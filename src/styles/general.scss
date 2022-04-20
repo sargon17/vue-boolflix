@@ -5,3 +5,25 @@
   color: $bf-text-color;
   font-weight: $bf-text-thin;
 }
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 8px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: $bf-transition;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+
+  &:hover {
+    background-color: $bf-background-color-transparent;
+  }
+}

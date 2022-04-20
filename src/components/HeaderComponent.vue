@@ -25,27 +25,42 @@
       </nav>
     </div>
     <div class="header__toolbox">
-      <button>
-        <i class="fa-regular fa-magnifying-glass"></i>
+      <button class="icon-btn">
+        <img :src="searchIcon" alt="search icon" />
+      </button>
+      <button class="icon-btn">
+        <img :src="bellIcon" alt="bell icon" />
       </button>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import searchIcon from "../img/icons/search.svg";
+import bellIcon from "../img/icons/bell.svg";
+
+export default {
+  name: "HeaderComponent",
+  data() {
+    return {
+      searchIcon,
+      bellIcon,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 @import "../styles/general.scss";
 
 .header {
-  width: 100%;
+  //   width: 100%;
   min-height: 68px;
   height: 68px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 32px;
 
   &__navigation {
     display: flex;
@@ -82,6 +97,13 @@ export default {};
         }
       }
     }
+  }
+
+  &__toolbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
   }
 }
 </style>
