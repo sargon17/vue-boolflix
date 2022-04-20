@@ -1,18 +1,16 @@
 <template>
   <div class="items-list">
     <div class="items-list__title">
-      <h2>See again</h2>
+      <h2>{{ title }}</h2>
       <img :src="moreIcon" alt="" />
     </div>
     <div class="items-list__card-list">
-      <CardComponent />
-      <CardComponent />
-      <CardComponent />
-      <CardComponent />
-      <CardComponent />
-      <CardComponent />
-      <CardComponent />
-      <CardComponent />
+      <CardComponent
+        v-for="{ title, id, poster_path } in movieList"
+        :title="title"
+        :key="id"
+        :poster="poster_path"
+      />
     </div>
   </div>
 </template>
@@ -31,6 +29,19 @@ export default {
       moreIcon,
     };
   },
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    movieList: {
+      type: Array,
+      required: true,
+    },
+  },
+  mounted() {
+    console.log(this.movieList);
+  },
 };
 </script>
 
@@ -38,12 +49,13 @@ export default {
 @import "../styles/general.scss";
 
 .items-list {
-  margin-left: 64px;
-
+  margin-bottom: 20px;
   &__title {
+    margin-left: 64px;
     display: flex;
     align-items: center;
     gap: 16px;
+    margin-bottom: -26px;
 
     h2 {
       font-size: $bf-text-size-medium;
@@ -52,14 +64,19 @@ export default {
   }
 
   &__card-list {
+    padding: 20px;
+    padding-left: 64px;
+    z-index: 1;
     margin-top: 20px;
     max-width: 100%;
-    overflow-x: scroll;
+    overflow-x: hidden;
     display: flex;
     flex-wrap: nowrap;
     gap: 16px;
     justify-content: flex-start;
-    height: 167px;
+    position: relative;
+    align-items: center;
+    // height: 200px;
   }
 }
 </style>
