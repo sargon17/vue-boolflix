@@ -1,13 +1,19 @@
 <template>
   <div class="main-section">
-    <ItemsList title="Popular Movies" :movieList="popularMovies" />
-    <ItemsList title="Trending This Week" :movieList="trendingAllWeek" />
+    <ItemsList
+      v-for="itemsLists in mainPageToLoad"
+      :title="itemsLists.name"
+      :key="itemsLists.id"
+      :movieList="getItemsList(itemsLists)"
+    />
+    <!-- {{ renderItemsList() }} -->
   </div>
 </template>
 
 <script>
 import ItemsList from "./ItemsList.vue";
 import axios from "axios";
+import mainPageToLoad from "../data/mainPageToLoad.json";
 
 export default {
   name: "HeaderComponent",
@@ -17,22 +23,27 @@ export default {
   data() {
     return {
       api_key: "api_key=f4a913977d179ebb7a42d0e12e6f64cb",
-      popularMovies: [],
-      trendingAllWeek: [],
+      mainPageToLoad,
     };
   },
-  mounted() {
-    this.getElementsList("movie/popular", this.popularMovies, "it-IT");
-    this.getElementsList("trending/all/week", this.trendingAllWeek, "it-IT");
-  },
   methods: {
-    getElementsList(filter, elementsList, language) {
+    getItemsList(param) {
+      console.log(param);
+      this.getElementsList(param.api_call, param.elements, param.language);
+      console.log("elements", param.elements);
+      return param.elements;
+    },
+
+    getElementsList(api_call, elementsList, language) {
       axios
         .get(
-          `https://api.themoviedb.org/3/${filter}?${this.api_key}&language=${language}`
+          `https://api.themoviedb.org/3/${api_call}?${this.api_key}&language=${language}`
         )
         .then((response) => {
           this.results = response.data.results;
+          this.results.forEach((element) => {
+            elementsList.push(element);
+          });
           console.log(this.results);
           this.results.forEach((movie) => {
             if (movie.poster_path && (movie.title || movie.name)) {
