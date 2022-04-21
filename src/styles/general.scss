@@ -29,6 +29,24 @@
   }
 }
 
+.nav-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 8px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: $bf-transition;
+  font-size: $bf-text-size-small;
+
+  &:hover {
+    background-color: $bf-background-color-transparent;
+  }
+}
+
 .btn {
   border: none;
   border-radius: $bf-border-radius-btn;

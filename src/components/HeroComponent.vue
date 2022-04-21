@@ -67,7 +67,7 @@ export default {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     },
     maxTextLength(text, maxLength) {
-      if (text.length > maxLength) {
+      if (text && text.length > maxLength) {
         return text.substring(0, maxLength) + "...";
       } else {
         return text;

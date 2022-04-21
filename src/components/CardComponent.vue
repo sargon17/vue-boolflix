@@ -49,6 +49,10 @@ export default {
       type: String,
       required: true,
     },
+    origin_country: {
+      type: String,
+      required: false,
+    },
   },
   methods: {
     getPoster(poster = "", size = "w342") {
@@ -60,6 +64,9 @@ export default {
     getFlagEmoji(countryCode) {
       if (countryCode === "en") {
         countryCode = "US";
+      }
+      if (this.origin_country) {
+        countryCode = this.origin_country;
       }
       const codePoints = countryCode
         .toUpperCase()
@@ -74,9 +81,9 @@ export default {
 <style lang="scss">
 @import "../styles/general.scss";
 .card {
-  width: 160px;
-  min-width: 160px;
-  aspect-ratio: 1/1.8;
+  width: 165px;
+  min-width: 165px;
+  aspect-ratio: 1/1.7;
   border-radius: 8px;
   z-index: 2;
   position: relative;
@@ -97,8 +104,8 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    width: 160px;
-    aspect-ratio: 1/1.8;
+    width: 165px;
+    aspect-ratio: 1/1.7;
     position: relative;
 
     & img {

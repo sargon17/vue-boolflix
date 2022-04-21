@@ -5,21 +5,27 @@
       <nav class="header__navigation__nav">
         <ul class="header__navigation__nav-list">
           <li
-            class="header__navigation__nav-list__item header__navigation__nav-list__item-active"
+            @click="$emit('navigation-click', 'start')"
+            :class="
+              isMovieShown && isSeriesShown
+                ? 'header__navigation__nav-list__item header__navigation__nav-list__item--active'
+                : 'header__navigation__nav-list__item'
+            "
           >
-            <a href="#">Start</a>
+            <button class="nav-btn">Start</button>
           </li>
-          <li class="header__navigation__nav-list__item">
-            <a href="#">Shows</a>
+          <li
+            @click="$emit('navigation-click', 'shows')"
+            class="header__navigation__nav-list__item"
+          >
+            <button class="nav-btn">Shows</button>
           </li>
-          <li class="header__navigation__nav-list__item">
-            <a href="#">Movies</a>
-          </li>
-          <li class="header__navigation__nav-list__item">
-            <a href="#">New</a>
-          </li>
-          <li class="header__navigation__nav-list__item">
-            <a href="#">MyList</a>
+          <li
+            @click="$emit('navigation-click', 'movies')"
+            class="header__navigation__nav-list__item"
+          >
+            <button class="nav-btn">Movies</button>
+            <!-- <a href="#">Movies</a> -->
           </li>
         </ul>
       </nav>
@@ -53,6 +59,14 @@ export default {
       type: Boolean,
       required: true,
     },
+    isMovieShown: {
+      type: Boolean,
+      required: true,
+    },
+    isShowShown: {
+      type: Boolean,
+      required: true,
+    },
   },
 };
 </script>
@@ -71,7 +85,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0 32px;
-  z-index: 1;
+  z-index: 10;
   transition: $bf-transition;
 
   &-active {

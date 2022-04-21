@@ -1,8 +1,36 @@
 <template>
   <div class="main-section">
-    <ItemsList title="Popular Movies" :movieList="popularMovies" />
-    <ItemsList title="Top Rated Movies" :movieList="topRatedMovies" />
-    <!-- <ItemsList title="Upcoming Movies" :movieList="upcomingMovies"/> -->
+    <ItemsList
+      v-if="isMovieShown"
+      title="Popular Movies"
+      :movieList="popularMovies"
+      :id="'popMovies1'"
+    />
+    <ItemsList
+      v-if="isMovieShown && isSeriesShown"
+      title="Tranding Now"
+      :movieList="trandingNow"
+      :id="'tranding2'"
+    />
+    <ItemsList
+      v-if="isMovieShown"
+      title="Upcoming Movies"
+      :movieList="upcomingMovies"
+      :id="'upcoming3'"
+    />
+    <ItemsList
+      v-if="isSeriesShown"
+      title="Popular Series"
+      :movieList="popularSeries"
+      :id="'popSeries4'"
+    />
+
+    <ItemsList
+      v-if="isMovieShown"
+      title="Top Rated Movies"
+      :movieList="topRatedMovies"
+      :id="'rated5'"
+    />
   </div>
 </template>
 
@@ -12,6 +40,16 @@ import axios from "axios";
 
 export default {
   name: "HeaderComponent",
+  props: {
+    isMovieShown: {
+      type: Boolean,
+      required: true,
+    },
+    isSeriesShown: {
+      type: Boolean,
+      required: true,
+    },
+  },
   components: {
     ItemsList,
   },
@@ -19,12 +57,18 @@ export default {
     return {
       api_key: "api_key=f4a913977d179ebb7a42d0e12e6f64cb",
       popularMovies: [],
+      trandingNow: [],
       topRatedMovies: [],
+      upcomingMovies: [],
+      popularSeries: [],
     };
   },
   mounted() {
     this.getElementsList("movie/popular", this.popularMovies, "it-IT");
     this.getElementsList("movie/top_rated", this.topRatedMovies, "it-IT");
+    this.getElementsList("movie/upcoming", this.upcomingMovies, "it-IT");
+    this.getElementsList("tv/popular", this.popularSeries, "it-IT");
+    this.getElementsList("trending/all/week", this.trandingNow, "it-IT");
   },
 
   methods: {
@@ -43,7 +87,6 @@ export default {
         )
         .then((response) => {
           this.results = response.data.results;
-          console.log("results", this.results);
           this.results.forEach((movie) => {
             if (movie.poster_path && (movie.title || movie.name)) {
               elementsList.push({
@@ -51,8 +94,13 @@ export default {
                 id: movie.id,
                 poster_path: movie.poster_path,
                 vote_average: movie.vote_average,
-                original_title: movie.original_title,
+                original_title: movie.original_title
+                  ? movie.original_title
+                  : movie.original_name,
                 language: movie.original_language,
+                origin_country: movie.origin_country
+                  ? movie.origin_country[0]
+                  : "",
               });
             }
           });
