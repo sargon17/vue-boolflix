@@ -1,19 +1,14 @@
 <template>
   <div class="main-section">
-    <ItemsList
-      v-for="itemsLists in mainPageToLoad"
-      :title="itemsLists.name"
-      :key="itemsLists.id"
-      :movieList="getItemsList(itemsLists)"
-    />
-    <!-- {{ renderItemsList() }} -->
+    <ItemsList title="Popular Movies" :movieList="popularMovies" />
+    <ItemsList title="Top Rated Movies" :movieList="topRatedMovies" />
+    <!-- <ItemsList title="Upcoming Movies" :movieList="upcomingMovies"/> -->
   </div>
 </template>
 
 <script>
 import ItemsList from "./ItemsList.vue";
 import axios from "axios";
-import mainPageToLoad from "../data/mainPageToLoad.json";
 
 export default {
   name: "HeaderComponent",
@@ -23,13 +18,20 @@ export default {
   data() {
     return {
       api_key: "api_key=f4a913977d179ebb7a42d0e12e6f64cb",
-      mainPageToLoad,
+      popularMovies: [],
+      topRatedMovies: [],
     };
   },
+  mounted() {
+    this.getElementsList("movie/popular", this.popularMovies, "it-IT");
+    this.getElementsList("movie/top_rated", this.topRatedMovies, "it-IT");
+  },
+
   methods: {
     getItemsList(param) {
       console.log(param);
       this.getElementsList(param.api_call, param.elements, param.language);
+      param.elements.splice(0, 20);
       console.log("elements", param.elements);
       return param.elements;
     },
@@ -41,10 +43,7 @@ export default {
         )
         .then((response) => {
           this.results = response.data.results;
-          this.results.forEach((element) => {
-            elementsList.push(element);
-          });
-          console.log(this.results);
+          console.log("results", this.results);
           this.results.forEach((movie) => {
             if (movie.poster_path && (movie.title || movie.name)) {
               elementsList.push({
