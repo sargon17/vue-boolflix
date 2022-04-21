@@ -35,13 +35,14 @@ export default {
           this.results = response.data.results;
           console.log(this.results);
           this.results.forEach((movie) => {
-            if (movie.poster_path && movie.title) {
+            if (movie.poster_path && (movie.title || movie.name)) {
               elementsList.push({
-                title: movie.title,
+                title: movie.title || movie.name,
                 id: movie.id,
                 poster_path: movie.poster_path,
                 vote_average: movie.vote_average,
                 original_title: movie.original_title,
+                language: movie.original_language,
               });
             }
           });

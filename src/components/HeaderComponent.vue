@@ -1,5 +1,5 @@
 <template>
-  <div id="header" class="header">
+  <div id="header" :class="!isTop ? 'header header-active' : 'header'">
     <div class="header__navigation">
       <div class="header__navigation__logo">Boolflix</div>
       <nav class="header__navigation__nav">
@@ -45,7 +45,14 @@ export default {
     return {
       searchIcon,
       bellIcon,
+      // isTop: true,
     };
+  },
+  props: {
+    isTop: {
+      type: Boolean,
+      required: true,
+    },
   },
 };
 </script>
@@ -54,17 +61,22 @@ export default {
 @import "../styles/general.scss";
 
 .header {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  min-height: 68px;
-  height: 68px;
+  min-height: 60px;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 32px;
   z-index: 1;
+  transition: $bf-transition;
+
+  &-active {
+    background: #141414f6;
+  }
 
   &__navigation {
     display: flex;

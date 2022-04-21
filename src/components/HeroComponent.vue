@@ -1,13 +1,17 @@
 <template>
   <div id="hero" class="hero">
+    <div class="hero__img">
+      <img :src="getPoster(mainMovie.backdrop_path, 'original')" alt="" />
+      <div class="hero__img-bg"></div>
+    </div>
     <div class="hero-new-movie-info">
       <div class="hero-new-movie-info__netflix-serie">
         <img :src="netflixLogo" alt="netflix logo" />
         <h6>Show</h6>
       </div>
       <div class="hero-new-movie-info__title">
-        <h1>The Witcher</h1>
-        <h6>Season 3</h6>
+        <h1>{{ mainMovie.title || mainMovie.name }}</h1>
+        <h6>{{ maxTextLength(mainMovie.overview, 220) }}</h6>
       </div>
       <div class="hero-new-movie-info__toolbox">
         <button class="btn main-btn">
@@ -27,6 +31,8 @@
 import netflixLogo from "../img/icons/Netflix_Symbol_RGB 1.svg";
 import playIcon from "../img/icons/chevron-right.svg";
 import infoIcon from "../img/icons/info.svg";
+import axios from "axios";
+
 export default {
   name: "HeroComponent",
   data() {
@@ -34,7 +40,39 @@ export default {
       netflixLogo,
       playIcon,
       infoIcon,
+      api_key: "api_key=f4a913977d179ebb7a42d0e12e6f64cb",
+      mainMovie: {},
     };
+  },
+  mounted() {
+    axios
+      .get(
+        `https://api.themoviedb.org/3/trending/all/week?${this.api_key}&language=it-IT`
+      )
+      .then((response) => {
+        this.mainMovie =
+          response.data.results[
+            this.randomInRange(0, response.data.results.length - 1)
+          ];
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  methods: {
+    getPoster(poster = "", size = "w342") {
+      return `https://image.tmdb.org/t/p/${size}${poster}`;
+    },
+    randomInRange(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+    maxTextLength(text, maxLength) {
+      if (text.length > maxLength) {
+        return text.substring(0, maxLength) + "...";
+      } else {
+        return text;
+      }
+    },
   },
 };
 </script>
@@ -46,16 +84,46 @@ export default {
   width: 100%;
   min-height: 100vh;
   height: 100vh;
-  background: #141414
-    url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.film-rezensionen.de%2Fwp-content%2Fuploads%2F2020%2F02%2FLocke-and-Key-Staffel-1-Frontpage-scaled.jpg&f=1&nofb=1);
+  background: #141414;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
 
+  .hero__img {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero__img-bg {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.6) 60%
+      );
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  }
+
   &-new-movie-info {
     position: absolute;
-    top: 50%;
+    top: 40%;
     margin-left: 64px;
 
     &__netflix-serie {
@@ -78,14 +146,15 @@ export default {
         color: #fff;
         text-transform: uppercase;
         letter-spacing: 0.15rem;
+        max-width: 80%;
       }
 
       h6 {
-        font-size: 1.5rem;
-        font-weight: $bf-text-bold;
+        font-size: $bf-text-size-small;
+        font-weight: $bf-text-thin;
         color: #fff;
-        text-transform: uppercase;
-        letter-spacing: 0.15rem;
+        max-width: 60vw;
+        line-height: 1.1;
       }
     }
 

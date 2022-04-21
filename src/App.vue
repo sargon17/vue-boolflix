@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <Header />
+  <div id="app" @wheel="checkPosition()">
+    <Header :isTop="isTop" />
     <Hero />
     <MainSection />
   </div>
@@ -13,10 +13,24 @@ import MainSection from "./components/MainSection.vue";
 
 export default {
   name: "App",
+  data() {
+    return {
+      isTop: true,
+    };
+  },
   components: {
     Header,
     Hero,
     MainSection,
+  },
+  methods: {
+    checkPosition() {
+      if (window.pageYOffset > 0) {
+        this.isTop = false;
+      } else {
+        this.isTop = true;
+      }
+    },
   },
 };
 </script>

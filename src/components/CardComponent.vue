@@ -1,8 +1,6 @@
 <template>
   <div id="card" class="card">
-    <div class="card-img">
-      <img :src="getPoster(poster)" alt="" />
-    </div>
+    <div class="card-img"><img :src="getPoster(poster, 'w342')" alt="" /></div>
     <div class="card-info">
       <div class="card-info-bg"></div>
       <div class="card-info__text">
@@ -14,7 +12,7 @@
           <div class="card-info__text-valutation">
             <StarsValutation :vote_average="vote_average" />
           </div>
-          <p class="card-info__additional-lang">lang</p>
+          <p class="card-info__additional-lang">{{ getFlagEmoji(language) }}</p>
         </div>
       </div>
     </div>
@@ -26,6 +24,7 @@ import StarsValutation from "./StarsValutation.vue";
 
 export default {
   name: "CardComponent",
+
   components: {
     StarsValutation,
   },
@@ -46,13 +45,27 @@ export default {
       type: String,
       required: true,
     },
+    language: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
-    getPoster(poster) {
-      return `https://image.tmdb.org/t/p/w780${poster}`;
+    getPoster(poster = "", size = "w342") {
+      return `https://image.tmdb.org/t/p/${size}${poster}`;
     },
     isTitlesDifferent() {
       return this.title != this.original_title;
+    },
+    getFlagEmoji(countryCode) {
+      if (countryCode === "en") {
+        countryCode = "US";
+      }
+      const codePoints = countryCode
+        .toUpperCase()
+        .split("")
+        .map((char) => 127397 + char.charCodeAt());
+      return String.fromCodePoint(...codePoints);
     },
   },
 };

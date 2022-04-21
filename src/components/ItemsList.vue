@@ -12,12 +12,14 @@
           poster_path,
           vote_average,
           original_title,
+          language,
         } in movieList"
         :title="title"
         :key="id"
         :poster="poster_path"
         :vote_average="vote_average"
         :original_title="original_title"
+        :language="language"
       />
     </div>
   </div>
