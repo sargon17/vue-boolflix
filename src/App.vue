@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     checkPosition() {
-      if (window.pageYOffset > 0) {
+      if (window.pageYOffset > 0 || window.scrollY > 0) {
         this.isTop = false;
       } else {
         this.isTop = true;
