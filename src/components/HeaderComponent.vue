@@ -39,6 +39,7 @@
           placeholder="Search"
           v-model="searchValue"
         />
+        <button @click="handleCloseSearch">x</button>
       </div>
       <button class="icon-btn" @click="handleSearchDisplay">
         <img :src="searchIcon" alt="search icon" />
@@ -90,6 +91,10 @@ export default {
     handleSearch() {
       console.log(this.searchValue);
       this.$emit("search-value", this.searchValue);
+    },
+    handleCloseSearch() {
+      this.$emit("search-display");
+      this.searchValue = "";
     },
   },
 };
@@ -160,13 +165,17 @@ export default {
     gap: 24px;
 
     &__search {
+      background: #2d2d2df6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0rem 1rem;
+      border-radius: 4px;
       &__input {
+        background: none;
         width: 100%;
         height: 40px;
         border: none;
-        border-radius: 4px;
-        background: #2d2d2df6;
-        padding: 0 16px;
         font-size: $bf-text-size-xSmall;
         font-weight: $bf-text-thin;
         color: $bf-text-color;
