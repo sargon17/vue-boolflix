@@ -55,6 +55,11 @@
           :media_type="media_type"
         />
         <h2 v-if="result.length === 0">Nessun risultato trovato</h2>
+        <div class="search-out__results__more-btn" v-if="isMorePageAviable">
+          <button class="btn main-btn" @click="getMoreResults">
+            Mostra altri risultati
+          </button>
+        </div>
       </div>
     </div>
     <DetailedMovie
@@ -88,6 +93,9 @@ export default {
       selectedGenre: "multi",
       selectLanguage: "it",
       languages: [],
+      pagesToDisplay: 1,
+      displayedItemsIds: [],
+      isMorePageAviable: true,
     };
   },
   props: {
@@ -102,62 +110,74 @@ export default {
   },
   watch: {
     searchValue: function () {
-      this.getItems(this.searchValue);
+      this.startSearch();
     },
     searchBy: function () {
-      this.getItems(this.searchValue);
+      this.startSearch();
     },
     selectedGenre: function () {
-      this.getItems(this.searchValue);
+      this.startSearch();
     },
     selectLanguage: function () {
-      this.getItems(this.searchValue);
+      this.startSearch();
     },
   },
   mounted() {
-    this.getItems(this.searchValue);
+    this.startSearch();
     this.getGenres();
     this.getLanguages();
   },
 
   methods: {
-    getItems(query) {
+    startSearch() {
       this.result = [];
-      for (let i = 1; i < 3; i++) {
+      this.pagesToDisplay = 1;
+      this.getItems(this.searchValue, this.pagesToDisplay);
+    },
+    getItems(query = "", pages = 1) {
+      for (let i = pages; i <= 3 * pages; i++) {
         axios
           .get(
-            `https://api.themoviedb.org/3/search/${this.searchBy}?${this.api_key}&language=${this.selectLanguage}&query=${query}&page=1&include_adult=false&region=IT&page=${i}`
+            `https://api.themoviedb.org/3/search/${this.searchBy}?${this.api_key}&language=${this.selectLanguage}&query=${query}&include_adult=false&region=IT&page=${i}`
           )
           .then((response) => {
-            console.log(response.data.results);
+            if (response.data.results.length === 0) {
+              this.isMorePageAviable = false;
+              return;
+            } else {
+              this.isMorePageAviable = true;
+            }
             let results = [];
             if (this.selectedGenre !== "multi") {
-              console.log("selected genre", this.selectedGenre);
+              // console.log("selected genre", this.selectedGenre);
               response.data.results.forEach((element) => {
                 if (element.genre_ids.includes(this.selectedGenre)) {
                   results.push(element);
                 }
-                console.log("results", results);
+                // console.log("results", results);
               });
             } else {
               results = response.data.results;
             }
             results.forEach((movie) => {
-              if (movie.poster_path && (movie.title || movie.name)) {
-                this.result.push({
-                  title: movie.title || movie.name,
-                  id: movie.id,
-                  media_type: movie.title ? "movie" : "tv",
-                  poster_path: movie.poster_path,
-                  vote_average: movie.vote_average,
-                  original_title: movie.original_title
-                    ? movie.original_title
-                    : movie.original_name,
-                  language: movie.original_language,
-                  origin_country: movie.origin_country
-                    ? movie.origin_country[0]
-                    : "",
-                });
+              if (!this.displayedItemsIds.includes(movie.id)) {
+                if (movie.poster_path && (movie.title || movie.name)) {
+                  this.result.push({
+                    title: movie.title || movie.name,
+                    id: movie.id,
+                    media_type: movie.title ? "movie" : "tv",
+                    poster_path: movie.poster_path,
+                    vote_average: movie.vote_average,
+                    original_title: movie.original_title
+                      ? movie.original_title
+                      : movie.original_name,
+                    language: movie.original_language,
+                    origin_country: movie.origin_country
+                      ? movie.origin_country[0]
+                      : "",
+                  });
+                  this.displayedItemsIds.push(movie.id);
+                }
               }
             });
           })
@@ -190,7 +210,7 @@ export default {
           `https://api.themoviedb.org/3/configuration/languages?${this.api_key}`
         )
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           response.data.forEach((language) => {
             this.languages.push({
               id: language.iso_639_1,
@@ -203,20 +223,24 @@ export default {
         });
     },
     sortByGenres() {
-      console.log(this.selectedGenre);
+      // console.log(this.selectedGenre);
       if (this.selectedGenre !== "All") {
         this.result = this.result.filter((movie) =>
           movie.genre_ids.includes(this.selectedGenre)
         );
       }
     },
+    getMoreResults() {
+      this.pagesToDisplay += 1;
+      this.getItems(this.searchValue, this.pagesToDisplay);
+    },
 
     takeCardData(data) {
-      console.log("data", data);
+      // console.log("data", data);
       this.currentMovieId = data[0];
       this.currentMovieType = data[1];
       this.isCardShown = true;
-      console.log("card shown", this.isCardShown);
+      // console.log("card shown", this.isCardShown);
     },
     closeDetailedWindow() {
       this.isCardShown = false;
@@ -271,5 +295,18 @@ export default {
   gap: 15px;
   height: 80vh;
   //   width: 100%;
+
+  &__more-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0.2rem;
+    margin: 0px 10px;
+
+    button {
+      font-size: $bf-text-size-small;
+    }
+  }
 }
 </style>

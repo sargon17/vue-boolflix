@@ -24,8 +24,14 @@
             </h6>
             <div class="detailed__card-info__content-additional">
               <p>{{ setDateToYear(movie.release_date) }}</p>
-              <p>{{ movie.runtime }} min</p>
-              <p class="detailed__card-info__content-additional-valutation">
+              <p v-if="movie.runtime">{{ movie.runtime }} min</p>
+              <p v-if="movie.number_of_seasons">
+                {{ movie.number_of_seasons }} seasons
+              </p>
+              <p
+                v-if="movie.vote_average"
+                class="detailed__card-info__content-additional-valutation"
+              >
                 {{ movie.vote_average }}
               </p>
             </div>
@@ -38,7 +44,7 @@
                 v-for="element in cast"
                 :key="element.credit_id"
               >
-                <div class="cast-element__img" v-if="element.profile_path">
+                <div class="cast-element__img">
                   <img :src="getPoster(element.profile_path, 'w154')" alt="" />
                 </div>
                 <p class="cast-element__name">{{ element.name }}</p>
@@ -83,7 +89,6 @@ export default {
     },
     selectedLanguage: {
       type: String,
-      required: true,
     },
   },
   watch: {
@@ -98,10 +103,35 @@ export default {
           `https://api.themoviedb.org/3/${this.currentMovieType}/${this.currentMovieId}?${this.api_key}&language=${this.selectedLanguage}`
         )
         .then((response) => {
-          this.movie = response.data;
-          console.log(this.movie);
+          // this.movie = response.data;
+          // console.log(response.data);
+          this.movie.title = response.data.title
+            ? response.data.title
+            : response.data.name;
+          this.movie.poster_path = response.data.poster_path;
+          this.movie.tagline = response.data.tagline;
+          this.movie.release_date = response.data.release_date
+            ? response.data.release_date
+            : response.data.first_air_date;
+          this.movie.runtime = response.data.runtime
+            ? response.data.runtime
+            : "";
+          this.movie.vote_average = response.data.vote_average;
+          this.movie.number_of_seasons = response.data.number_of_seasons
+            ? response.data.number_of_seasons
+            : null;
+          this.movie.overview = response.data.overview;
+          this.movie.genres = response.data.genres;
+          this.bgImage = this.getPoster(
+            response.data.backdrop_path,
+            "original"
+          );
+          this.movie.id = response.data.id;
+
           this.getCredit(this.movie.id);
-          this.setBackground();
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
     getCredit(id) {
@@ -112,9 +142,9 @@ export default {
         )
         .then((response) => {
           this.credit = response.data;
-          console.log("credit", this.credit);
+          // console.log("credit", this.credit);
           for (let i = 0; i < this.credit.cast.length; i++) {
-            if (i < 5) {
+            if (i < 5 && this.credit.cast[i].profile_path) {
               this.cast.push(this.credit.cast[i]);
             }
           }
@@ -176,7 +206,7 @@ export default {
     z-index: 20;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, #14141460 0%, #141414fa 60%);
+    background: linear-gradient(120deg, #14141453 0%, #141414ea 60%);
 
     .detailed__card-info {
       position: absolute;

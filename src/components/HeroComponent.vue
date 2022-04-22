@@ -18,12 +18,19 @@
           <img :src="playIcon" alt="play icon" />
           Play
         </button>
-        <button class="btn secondary-btn">
+        <button class="btn secondary-btn" @click="isCardShown = !isCardShown">
           <img :src="infoIcon" alt="plus icon" />
           More Info
         </button>
       </div>
     </div>
+    <DetailedMovie
+      :currentMovieId="currentMovieId"
+      :currentMovieType="currentMovieType"
+      :isShown="isCardShown"
+      :selectedLanguage="selectedLanguage"
+      @closeWindow="closeDetailedWindow"
+    />
   </div>
 </template>
 
@@ -33,9 +40,13 @@ import playIcon from "../img/icons/chevron-right.svg";
 import infoIcon from "../img/icons/info.svg";
 import axios from "axios";
 import { api_key } from "../data/api_key";
+import DetailedMovie from "./DetailedMovie.vue";
 
 export default {
   name: "HeroComponent",
+  components: {
+    DetailedMovie,
+  },
   data() {
     return {
       netflixLogo,
@@ -43,6 +54,10 @@ export default {
       infoIcon,
       api_key,
       mainMovie: {},
+      currentMovieId: "",
+      currentMovieType: "",
+      selectedLanguage: "it",
+      isCardShown: false,
     };
   },
   mounted() {
@@ -55,6 +70,10 @@ export default {
           response.data.results[
             this.randomInRange(0, response.data.results.length - 1)
           ];
+        this.currentMovieId = this.mainMovie.id;
+        this.currentMovieType = this.mainMovie.media_type
+          ? this.mainMovie.media_type
+          : "tv";
       })
       .catch((error) => {
         console.log(error);
@@ -73,6 +92,9 @@ export default {
       } else {
         return text;
       }
+    },
+    closeDetailedWindow() {
+      this.isCardShown = false;
     },
   },
 };

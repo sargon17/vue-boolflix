@@ -93,7 +93,7 @@ export default {
       });
     },
     takeCardData(data) {
-      console.log(data);
+      // console.log(data);
       this.$emit("handleCardClick", data);
     },
   },

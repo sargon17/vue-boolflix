@@ -88,7 +88,7 @@ export default {
       return String.fromCodePoint(...codePoints);
     },
     passData() {
-      console.log("passData");
+      // console.log("passData");
       this.$emit("handleCardClick", [this.id, this.media_type]);
     },
   },

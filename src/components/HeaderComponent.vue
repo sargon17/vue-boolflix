@@ -13,21 +13,29 @@
             @click="$emit('navigation-click', 'start')"
             :class="
               isMovieShown && isSeriesShown
-                ? 'header__navigation__nav-list__item header__navigation__nav-list__item--active'
+                ? 'header__navigation__nav-list__item header__navigation__nav-list__item-active'
                 : 'header__navigation__nav-list__item'
             "
           >
-            <button class="nav-btn">Start</button>
+            <button class="nav-btn">Home</button>
           </li>
           <li
             @click="$emit('navigation-click', 'shows')"
-            class="header__navigation__nav-list__item"
+            :class="
+              isSeriesShown && !isMovieShown
+                ? 'header__navigation__nav-list__item header__navigation__nav-list__item-active'
+                : 'header__navigation__nav-list__item'
+            "
           >
-            <button class="nav-btn">Shows</button>
+            <button class="nav-btn">Series</button>
           </li>
           <li
             @click="$emit('navigation-click', 'movies')"
-            class="header__navigation__nav-list__item"
+            :class="
+              isMovieShown && !isSeriesShown
+                ? 'header__navigation__nav-list__item header__navigation__nav-list__item-active'
+                : 'header__navigation__nav-list__item'
+            "
           >
             <button class="nav-btn">Movies</button>
             <!-- <a href="#">Movies</a> -->
@@ -98,7 +106,7 @@ export default {
       // this.isSearchShown = !this.isSearchShown;
     },
     handleSearch() {
-      console.log(this.searchValue);
+      // console.log(this.searchValue);
       this.$emit("search-value", this.searchValue);
     },
     handleCloseSearch() {
@@ -154,13 +162,10 @@ export default {
           font-weight: $bf-text-thin;
           color: $bf-text-color;
           margin-left: 1rem;
-
-          a {
-            text-decoration: none;
-          }
-
           &-active {
-            font-weight: $bf-text-bold;
+            button {
+              font-weight: $bf-text-bold;
+            }
           }
         }
       }

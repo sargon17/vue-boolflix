@@ -40,6 +40,7 @@
       :currentMovieId="currentMovieId"
       :currentMovieType="currentMovieType"
       :isShown="isCardShown"
+      :selectedLanguage="selectedLanguage"
       @closeWindow="closeDetailedWindow"
     />
   </div>
@@ -79,6 +80,7 @@ export default {
       isCardShown: false,
       currentMovieId: 0,
       currentMovieType: "",
+      selectedLanguage: "it",
     };
   },
   mounted() {
@@ -91,10 +93,10 @@ export default {
 
   methods: {
     getItemsList(param) {
-      console.log(param);
+      // console.log(param);
       this.getElementsList(param.api_call, param.elements, param.language);
       param.elements.splice(0, 20);
-      console.log("elements", param.elements);
+      // console.log("elements", param.elements);
       return param.elements;
     },
 
@@ -130,11 +132,11 @@ export default {
         });
     },
     takeCardData(data) {
-      console.log("data", data);
+      // console.log("data", data);
       this.currentMovieId = data[0];
       this.currentMovieType = data[1];
       this.isCardShown = true;
-      console.log("card shown", this.isCardShown);
+      // console.log("card shown", this.isCardShown);
     },
     closeDetailedWindow() {
       this.isCardShown = false;
