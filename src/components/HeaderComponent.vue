@@ -1,5 +1,10 @@
 <template>
-  <div id="header" :class="!isTop ? 'header header-active' : 'header'">
+  <div
+    id="header"
+    :class="
+      !isTop || searchValue.length > 0 ? 'header header-active' : 'header'
+    "
+  >
     <div class="header__navigation">
       <div class="header__navigation__logo">Boolflix</div>
       <nav class="header__navigation__nav">
@@ -39,7 +44,9 @@
           placeholder="Search"
           v-model="searchValue"
         />
-        <button @click="handleCloseSearch">x</button>
+        <button @click="handleCloseSearch" class="icon-btn">
+          <img :src="closeIcon" alt="close icon" />
+        </button>
       </div>
       <button class="icon-btn" @click="handleSearchDisplay">
         <img :src="searchIcon" alt="search icon" />
@@ -54,6 +61,7 @@
 <script>
 import searchIcon from "../img/icons/search.svg";
 import bellIcon from "../img/icons/bell.svg";
+import closeIcon from "../img/icons/x-circle-fill.svg";
 
 export default {
   name: "HeaderComponent",
@@ -61,6 +69,7 @@ export default {
     return {
       searchIcon,
       bellIcon,
+      closeIcon,
       // isTop: true,
       searchValue: "",
     };
@@ -169,9 +178,9 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0rem 1rem;
-      border-radius: 4px;
+      border-radius: $bf-border-radius;
       &__input {
+        padding: 0rem 1rem;
         background: none;
         width: 100%;
         height: 40px;

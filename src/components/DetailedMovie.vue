@@ -17,7 +17,7 @@
               </p>
             </div>
             <h2 class="detailed__card-info__content-title">
-              {{ movie.title }}
+              {{ movie.title ? movie.title : movie.original_title }}
             </h2>
             <h6 class="detailed__card-info__content-subtitle">
               {{ movie.tagline }}
@@ -81,6 +81,10 @@ export default {
       type: String,
       required: true,
     },
+    selectedLanguage: {
+      type: String,
+      required: true,
+    },
   },
   watch: {
     currentMovieId: function () {
@@ -91,7 +95,7 @@ export default {
     getMovie() {
       axios
         .get(
-          `https://api.themoviedb.org/3/${this.currentMovieType}/${this.currentMovieId}?${this.api_key}&language=it-IT`
+          `https://api.themoviedb.org/3/${this.currentMovieType}/${this.currentMovieId}?${this.api_key}&language=${this.selectedLanguage}`
         )
         .then((response) => {
           this.movie = response.data;
