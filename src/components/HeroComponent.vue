@@ -47,7 +47,7 @@ export default {
   mounted() {
     axios
       .get(
-        `https://api.themoviedb.org/3/trending/all/week?${this.api_key}&language=it-IT`
+        `https://api.themoviedb.org/3/trending/all/week?${this.api_key}&language=it-IT&region=IT`
       )
       .then((response) => {
         this.mainMovie =

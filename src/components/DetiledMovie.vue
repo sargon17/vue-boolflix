@@ -73,6 +73,10 @@ export default {
       type: Boolean,
       required: true,
     },
+    currentMovieType: {
+      type: String,
+      required: true,
+    },
   },
   watch: {
     currentMovieId: function () {
@@ -83,7 +87,7 @@ export default {
     getMovie() {
       axios
         .get(
-          `https://api.themoviedb.org/3/movie/${this.currentMovieId}?${this.api_key}&language=it-IT`
+          `https://api.themoviedb.org/3/${this.currentMovieType}/${this.currentMovieId}?${this.api_key}&language=it-IT`
         )
         .then((response) => {
           this.movie = response.data;
@@ -95,7 +99,9 @@ export default {
     getCredit(id) {
       this.cast = [];
       axios
-        .get(`https://api.themoviedb.org/3/movie/${id}/credits?${this.api_key}`)
+        .get(
+          `https://api.themoviedb.org/3/${this.currentMovieType}/${id}/credits?${this.api_key}`
+        )
         .then((response) => {
           this.credit = response.data;
           console.log("credit", this.credit);
@@ -136,6 +142,7 @@ export default {
 }
 
 .detiled__card {
+  min-width: 800px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -250,11 +257,11 @@ export default {
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        gap: 15px;
+        gap: 20px;
         margin-top: 10px;
 
         .cast-element {
-          width: 90px;
+          width: 100px;
           height: 150px;
 
           &__img {

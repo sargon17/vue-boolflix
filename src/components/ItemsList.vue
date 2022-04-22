@@ -22,6 +22,7 @@
             original_title,
             language,
             origin_country,
+            media_type,
           } in movieList"
           :id="id"
           :title="title"
@@ -31,6 +32,7 @@
           :original_title="original_title"
           :language="language"
           :origin_country="origin_country"
+          :media_type="media_type"
         />
       </div>
       <div
@@ -91,7 +93,7 @@ export default {
       });
     },
     takeCardData(data) {
-      // console.log("card data passed");
+      console.log(data);
       this.$emit("handleCardClick", data);
     },
   },

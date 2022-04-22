@@ -28,6 +28,11 @@ export default {
   components: {
     StarsValutation,
   },
+  data() {
+    return {
+      dataToSend: [this.id, this.media_type],
+    };
+  },
   props: {
     title: {
       type: String,
@@ -57,6 +62,10 @@ export default {
       type: Number,
       required: true,
     },
+    media_type: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
     getPoster(poster = "", size = "w342") {
@@ -80,7 +89,7 @@ export default {
     },
     passData() {
       console.log("passData");
-      this.$emit("handleCardClick", this.id);
+      this.$emit("handleCardClick", [this.id, this.media_type]);
     },
   },
 };

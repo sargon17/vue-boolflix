@@ -38,6 +38,7 @@
     />
     <DetiledMovie
       :currentMovieId="currentMovieId"
+      :currentMovieType="currentMovieType"
       :isShown="isCardShown"
       @closeWindow="closeDetiledWindow"
     />
@@ -75,6 +76,7 @@ export default {
       popularSeries: [],
       isCardShown: false,
       currentMovieId: 0,
+      currentMovieType: "",
     };
   },
   mounted() {
@@ -97,15 +99,17 @@ export default {
     getElementsList(api_call, elementsList, language) {
       axios
         .get(
-          `https://api.themoviedb.org/3/${api_call}?${this.api_key}&language=${language}`
+          `https://api.themoviedb.org/3/${api_call}?${this.api_key}&language=${language}&region=IT`
         )
         .then((response) => {
           this.results = response.data.results;
+          console.log(response.data.results);
           this.results.forEach((movie) => {
             if (movie.poster_path && (movie.title || movie.name)) {
               elementsList.push({
                 title: movie.title || movie.name,
                 id: movie.id,
+                media_type: movie.title ? "movie" : "tv",
                 poster_path: movie.poster_path,
                 vote_average: movie.vote_average,
                 original_title: movie.original_title
@@ -125,7 +129,8 @@ export default {
     },
     takeCardData(data) {
       console.log("data", data);
-      this.currentMovieId = data;
+      this.currentMovieId = data[0];
+      this.currentMovieType = data[1];
       this.isCardShown = true;
       console.log("card shown", this.isCardShown);
     },
