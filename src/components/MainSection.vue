@@ -36,11 +36,11 @@
       :movieList="topRatedMovies"
       :id="'rated5'"
     />
-    <DetiledMovie
+    <DetailedMovie
       :currentMovieId="currentMovieId"
       :currentMovieType="currentMovieType"
       :isShown="isCardShown"
-      @closeWindow="closeDetiledWindow"
+      @closeWindow="closeDetailedWindow"
     />
   </div>
 </template>
@@ -48,7 +48,7 @@
 <script>
 import ItemsList from "./ItemsList.vue";
 import axios from "axios";
-import DetiledMovie from "./DetiledMovie.vue";
+import DetailedMovie from "./DetailedMovie.vue";
 
 export default {
   name: "HeaderComponent",
@@ -64,7 +64,7 @@ export default {
   },
   components: {
     ItemsList,
-    DetiledMovie,
+    DetailedMovie,
   },
   data() {
     return {
@@ -134,7 +134,7 @@ export default {
       this.isCardShown = true;
       console.log("card shown", this.isCardShown);
     },
-    closeDetiledWindow() {
+    closeDetailedWindow() {
       this.isCardShown = false;
     },
   },

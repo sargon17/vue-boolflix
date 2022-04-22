@@ -1,36 +1,38 @@
 <template>
   <div v-if="isShown">
-    <div class="detiled__bg" @click="closeWindow"></div>
-    <div class="detiled__card">
+    <div class="detailed__bg" @click="closeWindow"></div>
+    <div class="detailed__card">
       <img :src="bgImage" alt="" />
-      <div class="detiled__card-bg">
-        <div class="detiled__card-info">
+      <div class="detailed__card-bg">
+        <div class="detailed__card-info">
           <img
             :src="getPoster(movie.poster_path, 'w342')"
             alt=""
-            class="detiled__card-info-img"
+            class="detailed__card-info-img"
           />
-          <div class="detiled__card-info__content">
-            <div class="detiled__card-info__content-overline">
+          <div class="detailed__card-info__content">
+            <div class="detailed__card-info__content-overline">
               <p v-for="{ name, id } in movie.genres" :key="movie.title + id">
                 {{ name }}
               </p>
             </div>
-            <h2 class="detiled__card-info__content-title">{{ movie.title }}</h2>
-            <h6 class="detiled__card-info__content-subtitle">
+            <h2 class="detailed__card-info__content-title">
+              {{ movie.title }}
+            </h2>
+            <h6 class="detailed__card-info__content-subtitle">
               {{ movie.tagline }}
             </h6>
-            <div class="detiled__card-info__content-additional">
+            <div class="detailed__card-info__content-additional">
               <p>{{ setDateToYear(movie.release_date) }}</p>
               <p>{{ movie.runtime }} min</p>
-              <p class="detiled__card-info__content-additional-valutation">
+              <p class="detailed__card-info__content-additional-valutation">
                 {{ movie.vote_average }}
               </p>
             </div>
-            <div class="detiled__card-info__content-overview">
+            <div class="detailed__card-info__content-overview">
               <p>{{ movie.overview }}</p>
             </div>
-            <div class="detiled__card-info__content-cast">
+            <div class="detailed__card-info__content-cast">
               <div
                 class="cast-element"
                 v-for="element in cast"
@@ -53,7 +55,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "DetiledMovie",
+  name: "DetailedMovie",
   data() {
     return {
       api_key: "api_key=f4a913977d179ebb7a42d0e12e6f64cb",
@@ -131,7 +133,7 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/general.scss";
 
-.detiled__bg {
+.detailed__bg {
   background: rgba(0, 0, 0, 0.831);
   width: 100%;
   height: 100vh;
@@ -141,7 +143,7 @@ export default {
   z-index: 8;
 }
 
-.detiled__card {
+.detailed__card {
   min-width: 800px;
   position: fixed;
   top: 50%;
@@ -170,7 +172,7 @@ export default {
     height: 100%;
     background: linear-gradient(to right, #14141460 0%, #141414fa 60%);
 
-    .detiled__card-info {
+    .detailed__card-info {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -183,14 +185,14 @@ export default {
       gap: 10px;
     }
 
-    .detiled__card-info-img {
+    .detailed__card-info-img {
       width: 200px;
       aspect-ratio: 1/1.8;
       object-fit: cover;
       border-radius: 10px;
     }
 
-    .detiled__card-info__content {
+    .detailed__card-info__content {
       &-overline {
         display: flex;
         flex-direction: row;
@@ -237,7 +239,7 @@ export default {
         p {
           color: $bf-text-secondary-color;
         }
-        & > .detiled__card-info__content-additional-valutation {
+        & > .detailed__card-info__content-additional-valutation {
           color: $bf-text-valutation-color;
         }
       }
