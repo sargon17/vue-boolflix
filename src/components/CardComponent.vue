@@ -1,5 +1,5 @@
 <template>
-  <div id="card" class="card">
+  <div id="card" class="card" @click="passData">
     <div class="card-img"><img :src="getPoster(poster, 'w342')" alt="" /></div>
     <div class="card-info">
       <div class="card-info-bg"></div>
@@ -77,6 +77,10 @@ export default {
         .split("")
         .map((char) => 127397 + char.charCodeAt());
       return String.fromCodePoint(...codePoints);
+    },
+    passData() {
+      console.log("passData");
+      this.$emit("handleCardClick", this.id);
     },
   },
 };

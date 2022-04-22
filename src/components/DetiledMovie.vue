@@ -1,6 +1,6 @@
 <template>
   <div v-if="isShown">
-    <div class="detiled__bg"></div>
+    <div class="detiled__bg" @click="closeWindow"></div>
     <div class="detiled__card">
       <img :src="bgImage" alt="" />
       <div class="detiled__card-bg">
@@ -59,13 +59,13 @@ export default {
       api_key: "api_key=f4a913977d179ebb7a42d0e12e6f64cb",
       movie: {},
       credits: {},
-      movieId: 567,
+      // movieId: this.currentMovie,
       bgImage: "",
       cast: [],
     };
   },
   props: {
-    currentMovie: {
+    currentMovieId: {
       type: Number,
       required: true,
     },
@@ -74,14 +74,16 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    this.getMovie();
+  watch: {
+    currentMovieId: function () {
+      this.getMovie();
+    },
   },
   methods: {
     getMovie() {
       axios
         .get(
-          `https://api.themoviedb.org/3/movie/${this.movieId}?${this.api_key}&language=it-IT`
+          `https://api.themoviedb.org/3/movie/${this.currentMovieId}?${this.api_key}&language=it-IT`
         )
         .then((response) => {
           this.movie = response.data;
@@ -91,6 +93,7 @@ export default {
         });
     },
     getCredit(id) {
+      this.cast = [];
       axios
         .get(`https://api.themoviedb.org/3/movie/${id}/credits?${this.api_key}`)
         .then((response) => {
@@ -109,8 +112,11 @@ export default {
     setBackground() {
       this.bgImage = this.getPoster(this.movie.backdrop_path, "w500");
     },
-    setDateToYear(date) {
+    setDateToYear(date = "") {
       return date.split("-")[0];
+    },
+    closeWindow() {
+      this.$emit("closeWindow");
     },
   },
 };

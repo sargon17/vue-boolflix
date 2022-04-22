@@ -1,28 +1,28 @@
 <template>
   <div class="main-section">
     <ItemsList
-      @pass-data="displayCard"
+      @handleCardClick="takeCardData"
       v-if="isMovieShown"
       title="Popular Movies"
       :movieList="popularMovies"
       :id="'popMovies1'"
     />
     <ItemsList
-      @pass-data="displayCard"
+      @handleCardClick="takeCardData"
       v-if="isMovieShown && isSeriesShown"
       title="Tranding Now"
       :movieList="trandingNow"
       :id="'tranding2'"
     />
     <ItemsList
-      @pass-data="displayCard"
+      @handleCardClick="takeCardData"
       v-if="isMovieShown"
       title="Upcoming Movies"
       :movieList="upcomingMovies"
       :id="'upcoming3'"
     />
     <ItemsList
-      @pass-data="displayCard"
+      @handleCardClick="takeCardData"
       v-if="isSeriesShown"
       title="Popular Series"
       :movieList="popularSeries"
@@ -30,13 +30,17 @@
     />
 
     <ItemsList
-      @pass-data="displayCard"
+      @handleCardClick="takeCardData"
       v-if="isMovieShown"
       title="Top Rated Movies"
       :movieList="topRatedMovies"
       :id="'rated5'"
     />
-    <DetiledMovie :currentMovie="currentMovie" :isShown="isCardShown" />
+    <DetiledMovie
+      :currentMovieId="currentMovieId"
+      :isShown="isCardShown"
+      @closeWindow="closeDetiledWindow"
+    />
   </div>
 </template>
 
@@ -70,7 +74,7 @@ export default {
       upcomingMovies: [],
       popularSeries: [],
       isCardShown: false,
-      currentMovie: "",
+      currentMovieId: 0,
     };
   },
   mounted() {
@@ -119,10 +123,14 @@ export default {
           console.log(error);
         });
     },
-    displayCard(id) {
-      console.log(id);
+    takeCardData(data) {
+      console.log("data", data);
+      this.currentMovieId = data;
       this.isCardShown = true;
-      this.currentMovie = id;
+      console.log("card shown", this.isCardShown);
+    },
+    closeDetiledWindow() {
+      this.isCardShown = false;
     },
   },
 };
