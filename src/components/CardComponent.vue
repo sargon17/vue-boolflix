@@ -1,14 +1,14 @@
 <template>
-  <div id="card" class="card">
+  <div id="card" class="card" @click="passData">
     <div class="card-img"><img :src="getPoster(poster, 'w342')" alt="" /></div>
     <div class="card-info">
-      <div class="card-info-bg"></div>
+      <div class="card-info-bg" @click="passData"></div>
       <div class="card-info__text">
         <h2 class="card-info__text-title">{{ title }}</h2>
         <h6 class="card-info__text-subtitle" v-if="isTitlesDifferent()">
           {{ original_title }}
         </h6>
-        <div class="card-info__additional">
+        <div class="card-info__additional" @click="passData">
           <div class="card-info__text-valutation">
             <StarsValutation :vote_average="vote_average" />
           </div>
@@ -53,6 +53,10 @@ export default {
       type: String,
       required: false,
     },
+    id: {
+      type: Number,
+      required: true,
+    },
   },
   methods: {
     getPoster(poster = "", size = "w342") {
@@ -73,6 +77,9 @@ export default {
         .split("")
         .map((char) => 127397 + char.charCodeAt());
       return String.fromCodePoint(...codePoints);
+    },
+    passData() {
+      this.$emit("passData", this.id);
     },
   },
 };

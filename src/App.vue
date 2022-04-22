@@ -51,6 +51,10 @@ export default {
       }
     },
   },
+  mounted() {
+    window.addEventListener("scroll", this.checkPosition);
+    this.checkPosition();
+  },
 };
 </script>
 

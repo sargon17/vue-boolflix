@@ -63,7 +63,7 @@ export default {
       type: Boolean,
       required: true,
     },
-    isShowShown: {
+    isSeriesShown: {
       type: Boolean,
       required: true,
     },

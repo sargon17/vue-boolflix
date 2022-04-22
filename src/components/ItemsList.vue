@@ -13,6 +13,7 @@
       </div>
       <div class="items-list__card-list" :id="id">
         <CardComponent
+          @passData="passMovieId"
           v-for="{
             title,
             id,
@@ -22,6 +23,7 @@
             language,
             origin_country,
           } in movieList"
+          :id="id"
           :title="title"
           :key="id + title + original_title + poster_path"
           :poster="poster_path"
@@ -87,6 +89,10 @@ export default {
         left: -320,
         behavior: "smooth",
       });
+    },
+    passMovieId(id) {
+      console.log(id);
+      this.$emit("pass-data", id);
     },
   },
 };

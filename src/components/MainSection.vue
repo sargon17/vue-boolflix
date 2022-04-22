@@ -1,24 +1,28 @@
 <template>
   <div class="main-section">
     <ItemsList
+      @pass-data="displayCard"
       v-if="isMovieShown"
       title="Popular Movies"
       :movieList="popularMovies"
       :id="'popMovies1'"
     />
     <ItemsList
+      @pass-data="displayCard"
       v-if="isMovieShown && isSeriesShown"
       title="Tranding Now"
       :movieList="trandingNow"
       :id="'tranding2'"
     />
     <ItemsList
+      @pass-data="displayCard"
       v-if="isMovieShown"
       title="Upcoming Movies"
       :movieList="upcomingMovies"
       :id="'upcoming3'"
     />
     <ItemsList
+      @pass-data="displayCard"
       v-if="isSeriesShown"
       title="Popular Series"
       :movieList="popularSeries"
@@ -26,17 +30,20 @@
     />
 
     <ItemsList
+      @pass-data="displayCard"
       v-if="isMovieShown"
       title="Top Rated Movies"
       :movieList="topRatedMovies"
       :id="'rated5'"
     />
+    <DetiledMovie :currentMovie="currentMovie" :isShown="isCardShown" />
   </div>
 </template>
 
 <script>
 import ItemsList from "./ItemsList.vue";
 import axios from "axios";
+import DetiledMovie from "./DetiledMovie.vue";
 
 export default {
   name: "HeaderComponent",
@@ -52,6 +59,7 @@ export default {
   },
   components: {
     ItemsList,
+    DetiledMovie,
   },
   data() {
     return {
@@ -61,6 +69,8 @@ export default {
       topRatedMovies: [],
       upcomingMovies: [],
       popularSeries: [],
+      isCardShown: false,
+      currentMovie: "",
     };
   },
   mounted() {
@@ -108,6 +118,11 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    displayCard(id) {
+      console.log(id);
+      this.isCardShown = true;
+      this.currentMovie = id;
     },
   },
 };
