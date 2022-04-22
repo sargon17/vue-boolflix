@@ -13,7 +13,7 @@
       </div>
       <div class="items-list__card-list" :id="id">
         <CardComponent
-          @passData="passMovieId"
+          @click="passMovieId"
           v-for="{
             title,
             id,
@@ -90,9 +90,9 @@ export default {
         behavior: "smooth",
       });
     },
-    passMovieId(id) {
-      console.log(id);
-      this.$emit("pass-data", id);
+    passMovieId() {
+      console.log("passMovieId");
+      // this.$emit("pass-data", id);
     },
   },
 };
