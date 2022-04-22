@@ -32,6 +32,7 @@ import netflixLogo from "../img/icons/Netflix_Symbol_RGB 1.svg";
 import playIcon from "../img/icons/chevron-right.svg";
 import infoIcon from "../img/icons/info.svg";
 import axios from "axios";
+import { api_key } from "../data/api_key";
 
 export default {
   name: "HeroComponent",
@@ -40,7 +41,7 @@ export default {
       netflixLogo,
       playIcon,
       infoIcon,
-      api_key: "api_key=f4a913977d179ebb7a42d0e12e6f64cb",
+      api_key,
       mainMovie: {},
     };
   },

@@ -31,7 +31,16 @@
       </nav>
     </div>
     <div class="header__toolbox">
-      <button class="icon-btn">
+      <div class="header__toolbox__search" v-if="isSearchShown">
+        <input
+          @keyup="handleSearch"
+          type="text"
+          class="header__toolbox__search__input"
+          placeholder="Search"
+          v-model="searchValue"
+        />
+      </div>
+      <button class="icon-btn" @click="handleSearchDisplay">
         <img :src="searchIcon" alt="search icon" />
       </button>
       <button class="icon-btn">
@@ -52,6 +61,7 @@ export default {
       searchIcon,
       bellIcon,
       // isTop: true,
+      searchValue: "",
     };
   },
   props: {
@@ -66,6 +76,20 @@ export default {
     isSeriesShown: {
       type: Boolean,
       required: true,
+    },
+    isSearchShown: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  methods: {
+    handleSearchDisplay() {
+      this.$emit("search-display");
+      // this.isSearchShown = !this.isSearchShown;
+    },
+    handleSearch() {
+      console.log(this.searchValue);
+      this.$emit("search-value", this.searchValue);
     },
   },
 };
@@ -134,6 +158,25 @@ export default {
     justify-content: space-between;
     align-items: center;
     gap: 24px;
+
+    &__search {
+      &__input {
+        width: 100%;
+        height: 40px;
+        border: none;
+        border-radius: 4px;
+        background: #2d2d2df6;
+        padding: 0 16px;
+        font-size: $bf-text-size-xSmall;
+        font-weight: $bf-text-thin;
+        color: $bf-text-color;
+        transition: $bf-transition;
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
   }
 }
 </style>

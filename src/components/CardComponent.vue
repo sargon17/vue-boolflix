@@ -104,7 +104,6 @@ export default {
   border-radius: 8px;
   z-index: 2;
   position: relative;
-  margin: 0 20px;
   overflow: hidden;
   transition: $bf-transition;
 

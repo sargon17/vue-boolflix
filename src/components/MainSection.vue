@@ -49,6 +49,7 @@
 import ItemsList from "./ItemsList.vue";
 import axios from "axios";
 import DetailedMovie from "./DetailedMovie.vue";
+import { api_key } from "../data/api_key";
 
 export default {
   name: "HeaderComponent",
@@ -68,7 +69,8 @@ export default {
   },
   data() {
     return {
-      api_key: "api_key=f4a913977d179ebb7a42d0e12e6f64cb",
+      // api_key: "api_key=f4a913977d179ebb7a42d0e12e6f64cb",
+      api_key,
       popularMovies: [],
       trandingNow: [],
       topRatedMovies: [],
@@ -103,7 +105,7 @@ export default {
         )
         .then((response) => {
           this.results = response.data.results;
-          console.log(response.data.results);
+          // console.log(response.data.results);
           this.results.forEach((movie) => {
             if (movie.poster_path && (movie.title || movie.name)) {
               elementsList.push({

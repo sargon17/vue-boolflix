@@ -4,10 +4,17 @@
       :isTop="isTop"
       :isMovieShown="isMovieShown"
       :isSeriesShown="isSeriesShown"
+      :isSearchShown="isSearchShown"
       @navigation-click="setSection"
+      @search-value="setSearchValue"
+      @search-display="setSearchDisplay"
     />
     <Hero />
     <MainSection :isMovieShown="isMovieShown" :isSeriesShown="isSeriesShown" />
+    <SearchOutput
+      v-if="searchValue.length > 0 && isSearchShown"
+      :searchValue="searchValue"
+    />
   </div>
 </template>
 
@@ -15,6 +22,7 @@
 import Header from "./components/HeaderComponent.vue";
 import Hero from "./components/HeroComponent.vue";
 import MainSection from "./components/MainSection.vue";
+import SearchOutput from "./components/SearchOutput.vue";
 
 export default {
   name: "App",
@@ -23,12 +31,15 @@ export default {
       isTop: true,
       isMovieShown: true,
       isSeriesShown: true,
+      searchValue: "",
+      isSearchShown: false,
     };
   },
   components: {
     Header,
     Hero,
     MainSection,
+    SearchOutput,
   },
   methods: {
     checkPosition() {
@@ -49,6 +60,12 @@ export default {
         this.isMovieShown = false;
         this.isSeriesShown = true;
       }
+    },
+    setSearchValue(value) {
+      this.searchValue = value;
+    },
+    setSearchDisplay() {
+      this.isSearchShown = !this.isSearchShown;
     },
   },
   mounted() {

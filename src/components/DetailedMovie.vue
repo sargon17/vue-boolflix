@@ -54,11 +54,13 @@
 
 <script>
 import axios from "axios";
+import { api_key } from "../data/api_key";
+
 export default {
   name: "DetailedMovie",
   data() {
     return {
-      api_key: "api_key=f4a913977d179ebb7a42d0e12e6f64cb",
+      api_key,
       movie: {},
       credits: {},
       // movieId: this.currentMovie,
@@ -140,7 +142,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 8;
+  z-index: 10;
 }
 
 .detailed__card {
@@ -154,7 +156,7 @@ export default {
   background: $bf-background-color;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  z-index: 9;
+  z-index: 10;
   overflow: hidden;
 
   & > img {
