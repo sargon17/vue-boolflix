@@ -56,7 +56,7 @@
         />
         <h2 v-if="result.length === 0">Nessun risultato trovato</h2>
         <div class="search-out__results__more-btn" v-if="isMorePageAviable">
-          <button class="btn main-btn" @click="getMoreResults">
+          <button class="btn secondary-btn" @click="getMoreResults">
             Mostra altri risultati
           </button>
         </div>
@@ -151,7 +151,7 @@ export default {
             if (this.selectedGenre !== "multi") {
               // console.log("selected genre", this.selectedGenre);
               response.data.results.forEach((element) => {
-                if (element.genre_ids.includes(this.selectedGenre)) {
+                if (element.genre_id.includes(this.selectedGenre)) {
                   results.push(element);
                 }
                 // console.log("results", results);
