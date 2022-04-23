@@ -178,5 +178,21 @@ export default {
       }
     }
   }
+  @media screen and (max-width: $bf-screen-sm) {
+    &__title {
+      margin-left: 20px;
+      h2 {
+        font-size: $bf-text-size-small;
+      }
+      img {
+        width: 20px;
+      }
+    }
+    &__card-list {
+      padding: 20px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
 }
 </style>

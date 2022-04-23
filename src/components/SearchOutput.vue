@@ -2,34 +2,40 @@
   <div>
     <div class="search-out__bg">
       <div class="search-out__additional-controls">
-        <label for="type">Scegli per tipo</label>
-        <select name="type" id="type" class="type_select" v-model="searchBy">
-          <option value="multi">All</option>
-          <option value="movie">Movie</option>
-          <option value="tv">Show</option>
-        </select>
-        <label for="genre">Scegli per genere</label>
-        <select
-          name="genre"
-          id="selectGenre"
-          class="type_select"
-          v-model="selectedGenre"
-        >
-          <option :value="id" v-for="{ name, id } in genres" :key="id">
-            {{ name }}
-          </option>
-        </select>
-        <label for="language">Scegli lingua</label>
-        <select
-          name="language"
-          id="language"
-          class="type_select"
-          v-model="selectLanguage"
-        >
-          <option :value="id" v-for="{ name, id } in languages" :key="id">
-            {{ name }}
-          </option>
-        </select>
+        <div class="select-box">
+          <label for="type">Scegli per tipo</label>
+          <select name="type" id="type" class="type_select" v-model="searchBy">
+            <option value="multi">All</option>
+            <option value="movie">Movie</option>
+            <option value="tv">Show</option>
+          </select>
+        </div>
+        <div class="select-box">
+          <label for="genre">Scegli per genere</label>
+          <select
+            name="genre"
+            id="selectGenre"
+            class="type_select"
+            v-model="selectedGenre"
+          >
+            <option :value="id" v-for="{ name, id } in genres" :key="id">
+              {{ name }}
+            </option>
+          </select>
+        </div>
+        <div class="select-box">
+          <label for="language">Scegli lingua</label>
+          <select
+            name="language"
+            id="language"
+            class="type_select"
+            v-model="selectLanguage"
+          >
+            <option :value="id" v-for="{ name, id } in languages" :key="id">
+              {{ name }}
+            </option>
+          </select>
+        </div>
       </div>
       <div class="search-out__results">
         <CardComponent
@@ -151,7 +157,7 @@ export default {
             if (this.selectedGenre !== "multi") {
               // console.log("selected genre", this.selectedGenre);
               response.data.results.forEach((element) => {
-                if (element.genre_id.includes(this.selectedGenre)) {
+                if (element.genre_ids.includes(this.selectedGenre)) {
                   results.push(element);
                 }
                 // console.log("results", results);
@@ -269,13 +275,20 @@ export default {
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 20px;
-  margin-top: 5vh;
+  margin-top: 60px;
   height: 10vh;
   padding: 0 64px;
-
+  gap: 20px;
+  .select-box {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
   .type_select {
     width: 200px;
-    background-color: rgb(90, 90, 90);
+    background-color: $bf-background-color-transparent;
     border: none;
     outline: none;
     font-size: $bf-text-size-small;
@@ -283,17 +296,35 @@ export default {
     border-radius: 5px;
     margin: 0 10px;
   }
+  @media screen and (max-width: $bf-screen-md) {
+    padding: 10px 16px 0 16px;
+    margin-top: 60px;
+    height: fit-content;
+    flex-wrap: wrap;
+    gap: 10px;
+    .select-box {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 10px;
+      width: calc(50% - 10px);
+      .type_select {
+        width: 100%;
+        margin: 0;
+      }
+    }
+  }
 }
 .search-out__results {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  justify-items: flex-start;
   align-items: center;
   align-content: flex-start;
   margin: 0 64px;
   gap: 15px;
   height: 80vh;
+  justify-content: flex-start;
   //   width: 100%;
 
   &__more-btn {
@@ -303,9 +334,23 @@ export default {
     width: 100%;
     padding: 0.2rem;
     margin: 0px 10px;
+    min-height: 10px;
+    height: 20vh;
 
     button {
       font-size: $bf-text-size-small;
+    }
+  }
+  @media screen and (max-width: $bf-screen-sm) {
+    margin: 0;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: start;
+
+    &__more-btn {
+      width: 100vw;
+      height: 20vh;
+      padding-bottom: 10vh;
     }
   }
 }

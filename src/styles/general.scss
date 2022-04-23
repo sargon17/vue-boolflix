@@ -32,6 +32,14 @@ body {
   &:hover {
     background-color: $bf-background-color-transparent;
   }
+  @media screen and (max-width: $bf-screen-sm) {
+    font-size: $bf-text-size-small;
+    padding: 4px;
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }
 
 .nav-btn {
@@ -70,6 +78,15 @@ body {
   }
   &:hover {
     transform: scale(1.1);
+  }
+
+  @media screen and (max-width: $bf-screen-sm) {
+    font-size: $bf-text-size-small;
+    padding: 0.4em 1em;
+    img {
+      width: 20px;
+      height: 20px;
+    }
   }
 }
 

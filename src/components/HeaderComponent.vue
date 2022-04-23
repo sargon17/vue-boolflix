@@ -7,9 +7,13 @@
   >
     <div class="header__navigation">
       <div class="header__navigation__logo">Boolflix</div>
+      <div class="header__navigation__logo header__navigation__logo-short">
+        B
+      </div>
       <nav class="header__navigation__nav">
         <ul class="header__navigation__nav-list">
           <li
+            v-if="searchValue.length === 0"
             @click="$emit('navigation-click', 'start')"
             :class="
               isMovieShown && isSeriesShown
@@ -20,6 +24,7 @@
             <button class="nav-btn">Home</button>
           </li>
           <li
+            v-if="searchValue.length === 0"
             @click="$emit('navigation-click', 'shows')"
             :class="
               isSeriesShown && !isMovieShown
@@ -30,6 +35,7 @@
             <button class="nav-btn">Series</button>
           </li>
           <li
+            v-if="searchValue.length === 0"
             @click="$emit('navigation-click', 'movies')"
             :class="
               isMovieShown && !isSeriesShown
@@ -56,10 +62,10 @@
           <img :src="closeIcon" alt="close icon" />
         </button>
       </div>
-      <button class="icon-btn" @click="handleSearchDisplay">
+      <button class="icon-btn search-icon" @click="handleSearchDisplay">
         <img :src="searchIcon" alt="search icon" />
       </button>
-      <button class="icon-btn">
+      <button class="icon-btn bell-icon">
         <img :src="bellIcon" alt="bell icon" />
       </button>
     </div>
@@ -125,6 +131,7 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
+  max-width: 100%;
   min-height: 60px;
   height: 60px;
   display: flex;
@@ -149,6 +156,10 @@ export default {
       color: $bf-netflix-color;
       text-transform: uppercase;
       letter-spacing: 0.15rem;
+
+      &-short {
+        display: none;
+      }
     }
 
     &__nav {
@@ -167,6 +178,19 @@ export default {
               font-weight: $bf-text-bold;
             }
           }
+        }
+      }
+    }
+    @media screen and (max-width: $bf-screen-sm) {
+      &__logo {
+        display: none;
+        &-short {
+          display: block;
+        }
+      }
+      &__nav {
+        &-list {
+          display: none;
         }
       }
     }
@@ -198,6 +222,16 @@ export default {
         &:focus {
           outline: none;
         }
+      }
+    }
+  }
+  @media screen and (max-width: $bf-screen-sm) {
+    padding: 0 16px;
+    &__toolbox {
+      gap: 0;
+
+      .bell-icon {
+        display: none;
       }
     }
   }

@@ -12,6 +12,7 @@ $bf-text-valutation-color: rgb(58, 176, 37);
 $bf-font-family: "Open Sans", sans-serif;
 $bf-text-thin: 400;
 $bf-text-bold: 700;
+$bf-text-size-xxSmall: 10px;
 $bf-text-size-xSmall: 14px;
 $bf-text-size-small: 16px;
 $bf-text-size-medium: 20px;
@@ -20,3 +21,11 @@ $bf-border-radius: 10px;
 $bf-border-radius-btn: 4px;
 
 $bf-transition: 0.3s ease-in-out;
+
+// Breakpoints
+$bf-screen-xxs: 0px;
+$bf-screen-xs: 320px;
+$bf-screen-sm: 600px;
+$bf-screen-md: 960px;
+$bf-screen-lg: 1280px;
+$bf-screen-xl: 1920px;

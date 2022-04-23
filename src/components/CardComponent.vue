@@ -188,5 +188,24 @@ export default {
       }
     }
   }
+  @media screen and (max-width: $bf-screen-sm) {
+    width: 40vw;
+    min-width: 120px;
+
+    &-img {
+      width: 100%;
+      aspect-ratio: 1/1.7;
+    }
+    &-info {
+      &__text {
+        &-title {
+          font-size: $bf-text-size-small;
+        }
+        &-subtitle {
+          font-size: $bf-text-size-xxSmall;
+        }
+      }
+    }
+  }
 }
 </style>

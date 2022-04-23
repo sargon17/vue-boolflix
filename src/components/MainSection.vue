@@ -146,6 +146,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../styles/general.scss";
+
 .main-section {
   width: 100%;
 
@@ -156,5 +158,9 @@ export default {
   position: relative;
   margin-top: -200px;
   padding-bottom: 5vh;
+
+  @media screen and (max-width: $bf-screen-sm) {
+    margin-top: -15vh;
+  }
 }
 </style>

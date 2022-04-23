@@ -189,5 +189,58 @@ export default {
       gap: 24px;
     }
   }
+
+  @media screen and (max-width: $bf-screen-sm) {
+    .hero__img-bg {
+      background: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.6) 60%
+      );
+    }
+    .hero-new-movie-info {
+      top: 30%;
+      margin-left: 20px;
+      margin-top: 0;
+
+      &__netflix-serie {
+        gap: 0.5rem;
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+        h6 {
+          font-size: 1rem;
+        }
+      }
+
+      &__title {
+        h1 {
+          font-size: 3rem;
+        }
+        h6 {
+          max-width: 80vw;
+          font-size: $bf-text-size-small;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: $bf-screen-xs) {
+    .hero-new-movie-info {
+      top: 30%;
+      margin-left: 20px;
+      margin-top: 0;
+      &__title {
+        h1 {
+          font-size: 1.5rem;
+        }
+        h6 {
+          max-width: 80vw;
+          font-size: $bf-text-size-xSmall;
+        }
+      }
+    }
+  }
 }
 </style>
