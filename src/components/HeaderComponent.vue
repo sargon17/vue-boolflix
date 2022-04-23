@@ -52,6 +52,7 @@
     <div class="header__toolbox">
       <div class="header__toolbox__search" v-if="isSearchShown">
         <input
+          @keydown.enter="handleSearch"
           @keyup="handleSearch"
           type="text"
           class="header__toolbox__search__input"

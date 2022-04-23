@@ -130,8 +130,8 @@ export default {
   },
   mounted() {
     this.startSearch();
-    this.getGenres();
     this.getLanguages();
+    this.getGenres();
   },
 
   methods: {
@@ -141,10 +141,12 @@ export default {
       this.getItems(this.searchValue, this.pagesToDisplay);
     },
     getItems(query = "", pages = 1) {
+      let finalQuery = query.trim().split(" ").join("%20");
+      console.log(query);
       for (let i = pages; i <= 3 * pages; i++) {
         axios
           .get(
-            `https://api.themoviedb.org/3/search/${this.searchBy}?${this.api_key}&language=${this.selectLanguage}&query=${query}&include_adult=false&region=IT&page=${i}`
+            `https://api.themoviedb.org/3/search/${this.searchBy}?${this.api_key}&language=${this.selectLanguage}&query=${finalQuery}&include_adult=false&region=IT&page=${i}`
           )
           .then((response) => {
             if (response.data.results.length === 0) {
@@ -186,6 +188,9 @@ export default {
                 }
               }
             });
+          })
+          .then(() => {
+            this.getLanguages();
           })
           .catch((error) => {
             console.log(error);

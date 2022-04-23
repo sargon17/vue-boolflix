@@ -5,12 +5,12 @@
       <img :src="moreIcon" alt="" />
     </div>
     <div class="items-list__items">
-      <div
+      <button
         class="items-list__cards__nav-btn items-list__cards__nav-btn--prev"
         @click="scrollLeft"
       >
         <img :src="caretLeft" alt="" />
-      </div>
+      </button>
       <div class="items-list__card-list" :id="id">
         <CardComponent
           @handleCardClick="takeCardData"
@@ -35,12 +35,12 @@
           :media_type="media_type"
         />
       </div>
-      <div
+      <button
         class="items-list__cards__nav-btn items-list__cards__nav-btn--next"
         @click="scrollRight"
       >
         <img :src="caretRight" alt="" />
-      </div>
+      </button>
     </div>
   </div>
 </template>
@@ -162,6 +162,12 @@ export default {
       justify-content: center;
       align-items: center;
       border-radius: 10px;
+      opacity: 0.5;
+
+      &:hover {
+        background: $bf-secondary-btn-color;
+        opacity: 1;
+      }
 
       &--prev {
         left: 0px;
@@ -171,10 +177,6 @@ export default {
       &--next {
         right: 0px;
         border-radius: 10px 0 0 10px;
-      }
-
-      &:hover {
-        background: $bf-secondary-btn-color;
       }
     }
   }
