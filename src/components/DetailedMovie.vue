@@ -285,6 +285,7 @@ export default {
         font-size: 0.8rem;
         font-weight: $bf-text-thin;
         line-height: 1.2;
+        text-align: justify;
 
         p {
           color: $bf-text-secondary-color;
@@ -328,6 +329,56 @@ export default {
             font-weight: $bf-text-thin;
             color: $bf-text-secondary-color;
           }
+        }
+      }
+    }
+  }
+  @media screen and (max-width: $bf-screen-md) {
+    width: 90vw;
+    height: 90vh;
+    min-width: 90vw;
+    .detailed__card-info {
+      width: 95%;
+      height: 100%;
+      padding: 10px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+      overflow: auto;
+    }
+    .detailed__card-info-img {
+      width: 35%;
+      aspect-ratio: 1/1.8;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .detailed__card-info__content {
+      &-overline {
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      &-title {
+        font-size: 2rem;
+      }
+      &-subtitle {
+        font-size: 1rem;
+      }
+      &-additional {
+        gap: 10px;
+      }
+      &-overview {
+        margin-top: 10px;
+      }
+      &-cast {
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 10px;
+        flex-wrap: wrap;
+        .cast-element {
+          width: 30%;
+          height: auto;
+          margin-bottom: 10px;
         }
       }
     }

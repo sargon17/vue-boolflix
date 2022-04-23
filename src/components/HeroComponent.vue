@@ -217,7 +217,7 @@ export default {
 
       &__title {
         h1 {
-          font-size: 3rem;
+          font-size: 2rem;
         }
         h6 {
           max-width: 80vw;
@@ -234,6 +234,7 @@ export default {
       &__title {
         h1 {
           font-size: 1.5rem;
+          width: 100%;
         }
         h6 {
           max-width: 80vw;
