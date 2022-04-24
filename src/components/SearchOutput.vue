@@ -146,7 +146,7 @@ export default {
       // console.log(query);
       axios
         .get(
-          `https://api.themoviedb.org/3/search/${this.searchBy}?${this.api_key}&language=${this.selectLanguage}&query=${finalQuery}&include_adult=false&region=IT&page=${page}sort_by=popularity.desc`
+          `https://api.themoviedb.org/3/search/${this.searchBy}?api_key=${this.api_key}&language=${this.selectLanguage}&query=${finalQuery}&include_adult=false&region=IT&page=${page}sort_by=popularity.desc`
         )
         .then((response) => {
           if (response.data.results.length < 20) {
@@ -207,7 +207,7 @@ export default {
     getGenres() {
       axios
         .get(
-          `https://api.themoviedb.org/3/genre/movie/list?${this.api_key}&language=it-IT`
+          `https://api.themoviedb.org/3/genre/movie/list?api_key=${this.api_key}&language=it-IT`
         )
         .then((response) => {
           response.data.genres.forEach((genre) => {
@@ -224,7 +224,7 @@ export default {
     getLanguages() {
       axios
         .get(
-          `https://api.themoviedb.org/3/configuration/languages?${this.api_key}`
+          `https://api.themoviedb.org/3/configuration/languages?api_key=${this.api_key}`
         )
         .then((response) => {
           // console.log(response.data);

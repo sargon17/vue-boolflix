@@ -9,6 +9,27 @@
     />
     <ItemsList
       @handleCardClick="takeCardData"
+      v-if="isSeriesShown"
+      title="Discover Series"
+      :movieList="discoverTv"
+      :id="'discoverTv2'"
+    />
+    <ItemsList
+      @handleCardClick="takeCardData"
+      v-if="isSeriesShown"
+      title="Discover Italian Series"
+      :movieList="discoverItalianTv"
+      :id="'discoverItalianTv2'"
+    />
+    <ItemsList
+      @handleCardClick="takeCardData"
+      v-if="isSeriesShown"
+      title="Discover Ukrainian Series"
+      :movieList="discoverUkrainianTv"
+      :id="'discoverUkrainianTv2'"
+    />
+    <ItemsList
+      @handleCardClick="takeCardData"
       v-if="isMovieShown && isSeriesShown"
       title="Tranding Now"
       :movieList="trandingNow"
@@ -30,31 +51,23 @@
     />
     <ItemsList
       @handleCardClick="takeCardData"
-      v-if="isSeriesShown"
-      title="Popular Series"
-      :movieList="popularSeries"
-      :id="'popSeries4'"
-    />
-    <ItemsList
-      @handleCardClick="takeCardData"
-      v-if="isSeriesShown"
-      title="Latest Series"
-      :movieList="latestSeries"
-      :id="'latestSeries4'"
-    />
-
-    <ItemsList
-      @handleCardClick="takeCardData"
       v-if="isMovieShown"
       title="Top Rated Movies"
       :movieList="topRatedMovies"
       :id="'rated5'"
     />
+    <ItemsList
+      @handleCardClick="takeCardData"
+      v-if="isSeriesShown"
+      title="Popular Series"
+      :movieList="popularSeries"
+      :id="'popSeries4'"
+    />
     <DetailedMovie
       :currentMovieId="currentMovieId"
       :currentMovieType="currentMovieType"
       :isShown="isCardShown"
-      :selectedLanguage="selectedLanguage"
+      :selectedLanguage="language"
       @closeWindow="closeDetailedWindow"
     />
   </div>
@@ -84,7 +97,6 @@ export default {
   },
   data() {
     return {
-      // api_key: "api_key=f4a913977d179ebb7a42d0e12e6f64cb",
       api_key,
       popularMovies: [],
       trandingNow: [],
@@ -92,67 +104,103 @@ export default {
       upcomingMovies: [],
       upcomingMoviesUSA: [],
       popularSeries: [],
-      latestSeries: [],
-      isCardShown: false,
+      discoverTv: [],
+      discoverItalianTv: [],
+      discoverUkrainianTv: [],
       currentMovieId: 0,
       currentMovieType: "",
-      selectedLanguage: "it",
+      language: "it-IT",
+      isCardShown: false,
     };
   },
   mounted() {
-    this.getElementsList("movie/popular", this.popularMovies, "it-IT", "IT");
-    this.getElementsList("movie/top_rated", this.topRatedMovies, "it-IT", "IT");
-    this.getElementsList("movie/upcoming", this.upcomingMovies, "it-IT", "IT");
-    this.getElementsList(
-      "movie/upcoming",
-      this.upcomingMoviesUSA,
-      "it-IT",
-      "US"
-    );
-    this.getElementsList("tv/popular", this.popularSeries, "it-IT", "IT");
-    this.getElementsList("trending/all/week", this.trandingNow, "it-IT", "IT");
-    this.getElementsList("tv/airing_today", this.latestSeries, "it-IT", "IT");
+    this.getElementsList("movie/popular", this.popularMovies, {
+      api_key,
+      language: this.language,
+      region: "IT",
+    });
+    this.getElementsList("movie/top_rated", this.topRatedMovies, {
+      api_key,
+      language: this.language,
+      region: "IT",
+    });
+    this.getElementsList("movie/upcoming", this.upcomingMovies, {
+      api_key,
+      language: this.language,
+      region: "IT",
+    });
+    this.getElementsList("movie/upcoming", this.upcomingMoviesUSA, {
+      api_key,
+      language: this.language,
+      region: "US",
+    });
+    this.getElementsList("tv/popular", this.popularSeries, {
+      api_key,
+      language: this.language,
+      region: "US",
+    });
+    this.getElementsList("trending/all/week", this.trandingNow, {
+      api_key,
+      language: this.language,
+      region: "IT",
+    });
+    this.getElementsList("discover/tv", this.discoverTv, {
+      api_key,
+      language: this.language,
+      watch_region: "IT",
+      sort_by: "popularity.desc",
+      with_genres: "18",
+      with_networks: "213",
+    });
+    this.getElementsList("discover/tv", this.discoverItalianTv, {
+      api_key,
+      language: this.language,
+      watch_region: "IT",
+      sort_by: "popularity.desc",
+      with_genres: "18",
+      with_networks: "213",
+      with_original_language: "it",
+    });
+    this.getElementsList("discover/tv", this.discoverUkrainianTv, {
+      api_key,
+      // language: this.language,
+      // watch_region: "IT",
+      sort_by: "popularity.desc",
+      // with_genres: "18",
+      // with_networks: "213",
+      with_original_language: "uk",
+    });
   },
 
   methods: {
-    getItemsList(param) {
-      // console.log(param);
-      this.getElementsList(param.api_call, param.elements, param.language);
-      param.elements.splice(0, 20);
-      // console.log("elements", param.elements);
-      return param.elements;
-    },
-
-    getElementsList(api_call, elementsList, language, region) {
+    getElementsList(api_call, elementsList, params) {
       axios
-        .get(
-          `https://api.themoviedb.org/3/${api_call}?${this.api_key}&language=${language}&region=${region}&page=1`
-        )
+        .get(`https://api.themoviedb.org/3/${api_call}`, { params })
         .then((response) => {
           this.results = response.data.results;
-          // console.log(response.data.results);
-          this.results.forEach((movie) => {
-            if (movie.poster_path && (movie.title || movie.name)) {
-              elementsList.push({
-                title: movie.title || movie.name,
-                id: movie.id,
-                media_type: movie.title ? "movie" : "tv",
-                poster_path: movie.poster_path,
-                vote_average: movie.vote_average,
-                original_title: movie.original_title
-                  ? movie.original_title
-                  : movie.original_name,
-                language: movie.original_language,
-                origin_country: movie.origin_country
-                  ? movie.origin_country[0]
-                  : "",
-              });
-            }
-          });
+          this.filterData(this.results, elementsList);
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+    filterData(results, elementsList) {
+      results.forEach((movie) => {
+        if (movie.poster_path && (movie.title || movie.name)) {
+          elementsList.push({
+            title: movie.title || movie.name,
+            id: movie.id,
+            media_type: movie.title ? "movie" : "tv",
+            poster_path: movie.poster_path,
+            vote_average: movie.vote_average,
+            original_title: movie.original_title
+              ? movie.original_title
+              : movie.original_name,
+            language: movie.original_language,
+            origin_country: movie.origin_country ? movie.origin_country[0] : "",
+          });
+        }
+      });
     },
     takeCardData(data) {
       // console.log("data", data);

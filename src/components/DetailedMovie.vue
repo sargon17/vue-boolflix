@@ -100,7 +100,7 @@ export default {
     getMovie() {
       axios
         .get(
-          `https://api.themoviedb.org/3/${this.currentMovieType}/${this.currentMovieId}?${this.api_key}&language=${this.selectedLanguage}`
+          `https://api.themoviedb.org/3/${this.currentMovieType}/${this.currentMovieId}?api_key=${this.api_key}&language=${this.selectedLanguage}`
         )
         .then((response) => {
           // this.movie = response.data;
@@ -138,7 +138,7 @@ export default {
       this.cast = [];
       axios
         .get(
-          `https://api.themoviedb.org/3/${this.currentMovieType}/${id}/credits?${this.api_key}`
+          `https://api.themoviedb.org/3/${this.currentMovieType}/${id}/credits?api_key=${this.api_key}`
         )
         .then((response) => {
           this.credit = response.data;
