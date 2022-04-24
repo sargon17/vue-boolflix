@@ -17,9 +17,16 @@
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isMovieShown"
-      title="Upcoming Movies"
+      title="Upcoming Movies in Italy"
       :movieList="upcomingMovies"
       :id="'upcoming3'"
+    />
+    <ItemsList
+      @handleCardClick="takeCardData"
+      v-if="isMovieShown"
+      title="Upcoming Movies in USA"
+      :movieList="upcomingMoviesUSA"
+      :id="'upcomingUSA3'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
@@ -27,6 +34,13 @@
       title="Popular Series"
       :movieList="popularSeries"
       :id="'popSeries4'"
+    />
+    <ItemsList
+      @handleCardClick="takeCardData"
+      v-if="isSeriesShown"
+      title="Latest Series"
+      :movieList="latestSeries"
+      :id="'latestSeries4'"
     />
 
     <ItemsList
@@ -76,7 +90,9 @@ export default {
       trandingNow: [],
       topRatedMovies: [],
       upcomingMovies: [],
+      upcomingMoviesUSA: [],
       popularSeries: [],
+      latestSeries: [],
       isCardShown: false,
       currentMovieId: 0,
       currentMovieType: "",
@@ -84,11 +100,18 @@ export default {
     };
   },
   mounted() {
-    this.getElementsList("movie/popular", this.popularMovies, "it-IT");
-    this.getElementsList("movie/top_rated", this.topRatedMovies, "it-IT");
-    this.getElementsList("movie/upcoming", this.upcomingMovies, "it-IT");
-    this.getElementsList("tv/popular", this.popularSeries, "it-IT");
-    this.getElementsList("trending/all/week", this.trandingNow, "it-IT");
+    this.getElementsList("movie/popular", this.popularMovies, "it-IT", "IT");
+    this.getElementsList("movie/top_rated", this.topRatedMovies, "it-IT", "IT");
+    this.getElementsList("movie/upcoming", this.upcomingMovies, "it-IT", "IT");
+    this.getElementsList(
+      "movie/upcoming",
+      this.upcomingMoviesUSA,
+      "it-IT",
+      "US"
+    );
+    this.getElementsList("tv/popular", this.popularSeries, "it-IT", "IT");
+    this.getElementsList("trending/all/week", this.trandingNow, "it-IT", "IT");
+    this.getElementsList("tv/airing_today", this.latestSeries, "it-IT", "IT");
   },
 
   methods: {
@@ -100,10 +123,10 @@ export default {
       return param.elements;
     },
 
-    getElementsList(api_call, elementsList, language) {
+    getElementsList(api_call, elementsList, language, region) {
       axios
         .get(
-          `https://api.themoviedb.org/3/${api_call}?${this.api_key}&language=${language}&region=IT`
+          `https://api.themoviedb.org/3/${api_call}?${this.api_key}&language=${language}&region=${region}&page=1`
         )
         .then((response) => {
           this.results = response.data.results;

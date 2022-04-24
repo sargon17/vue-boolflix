@@ -152,7 +152,7 @@ export default {
       top: 12.5%;
       width: 32px;
       height: 80%;
-      background: transparent;
+      background: rgba(255, 255, 255, 0.105);
       border: none;
       outline: none;
       cursor: pointer;
@@ -162,7 +162,7 @@ export default {
       justify-content: center;
       align-items: center;
       border-radius: 10px;
-      opacity: 0.5;
+      opacity: 0.8;
 
       &:hover {
         background: $bf-secondary-btn-color;

@@ -300,7 +300,7 @@ export default {
         margin-top: 10px;
 
         .cast-element {
-          width: 100px;
+          width: 20%;
           height: 150px;
 
           &__img {
@@ -376,6 +376,7 @@ export default {
         gap: 10px;
         flex-wrap: wrap;
         .cast-element {
+          max-width: 100px;
           width: 30%;
           height: auto;
           margin-bottom: 10px;

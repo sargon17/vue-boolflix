@@ -136,66 +136,72 @@ export default {
 
   methods: {
     startSearch() {
-      this.result = [];
+      this.displayedItemsIds = [];
       this.pagesToDisplay = 1;
+      this.result = [];
       this.getItems(this.searchValue, this.pagesToDisplay);
     },
-    getItems(query = "", pages = 1) {
+    getItems(query = "", page = 1) {
       let finalQuery = query.trim().split(" ").join("%20");
-      console.log(query);
-      for (let i = pages; i <= 3 * pages; i++) {
-        axios
-          .get(
-            `https://api.themoviedb.org/3/search/${this.searchBy}?${this.api_key}&language=${this.selectLanguage}&query=${finalQuery}&include_adult=false&region=IT&page=${i}`
-          )
-          .then((response) => {
-            if (response.data.results.length === 0) {
-              this.isMorePageAviable = false;
-              return;
-            } else {
-              this.isMorePageAviable = true;
-            }
-            let results = [];
-            if (this.selectedGenre !== "multi") {
-              // console.log("selected genre", this.selectedGenre);
-              response.data.results.forEach((element) => {
-                if (element.genre_ids.includes(this.selectedGenre)) {
-                  results.push(element);
-                }
-                // console.log("results", results);
-              });
-            } else {
-              results = response.data.results;
-            }
-            results.forEach((movie) => {
-              if (!this.displayedItemsIds.includes(movie.id)) {
-                if (movie.poster_path && (movie.title || movie.name)) {
-                  this.result.push({
-                    title: movie.title || movie.name,
-                    id: movie.id,
-                    media_type: movie.title ? "movie" : "tv",
-                    poster_path: movie.poster_path,
-                    vote_average: movie.vote_average,
-                    original_title: movie.original_title
-                      ? movie.original_title
-                      : movie.original_name,
-                    language: movie.original_language,
-                    origin_country: movie.origin_country
-                      ? movie.origin_country[0]
-                      : "",
-                  });
-                  this.displayedItemsIds.push(movie.id);
-                }
+      // console.log(query);
+      axios
+        .get(
+          `https://api.themoviedb.org/3/search/${this.searchBy}?${this.api_key}&language=${this.selectLanguage}&query=${finalQuery}&include_adult=false&region=IT&page=${page}sort_by=popularity.desc`
+        )
+        .then((response) => {
+          if (response.data.results.length < 20) {
+            this.isMorePageAviable = false;
+            return;
+          } else {
+            this.isMorePageAviable = true;
+          }
+          let results = [];
+          if (this.selectedGenre !== "multi") {
+            // console.log("selected genre", this.selectedGenre);
+            response.data.results.forEach((element) => {
+              if (element.genre_ids.includes(this.selectedGenre)) {
+                results.push(element);
               }
+              // console.log("results", results);
             });
-          })
-          .then(() => {
-            this.getLanguages();
-          })
-          .catch((error) => {
-            console.log(error);
+          } else {
+            results = response.data.results;
+            console.log("results", results);
+          }
+          results.forEach((movie) => {
+            // console.log("movie", movie);
+            if (!this.displayedItemsIds.includes(movie.id)) {
+              if (movie.poster_path && (movie.title || movie.name)) {
+                this.result.push({
+                  title: movie.title || movie.name,
+                  id: movie.id,
+                  media_type: movie.title ? "movie" : "tv",
+                  poster_path: movie.poster_path,
+                  vote_average: movie.vote_average,
+                  original_title: movie.original_title
+                    ? movie.original_title
+                    : movie.original_name,
+                  language: movie.original_language,
+                  origin_country: movie.origin_country
+                    ? movie.origin_country[0]
+                    : "",
+                });
+                this.displayedItemsIds.push(movie.id);
+              }
+            }
           });
-      }
+        })
+        .then(() => {
+          if (this.result.length < 20 * this.pagesToDisplay) {
+            this.isMorePageAviable = false;
+            return;
+          } else {
+            this.isMorePageAviable = true;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       //   this.sortByGenres();
     },
     getGenres() {
