@@ -26,7 +26,9 @@
               <p>{{ setDateToYear(movie.release_date) }}</p>
               <p v-if="movie.runtime">{{ movie.runtime }} min</p>
               <p v-if="movie.number_of_seasons">
-                {{ movie.number_of_seasons }} seasons
+                {{ movie.number_of_seasons }} season{{
+                  movie.number_of_seasons > 1 ? "s" : ""
+                }}
               </p>
               <p
                 v-if="movie.vote_average"

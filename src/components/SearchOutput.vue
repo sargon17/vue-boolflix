@@ -216,6 +216,7 @@ export default {
               name: genre.name,
             });
           });
+          console.log("genres", this.genres);
         })
         .catch((error) => {
           console.log(error);

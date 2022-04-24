@@ -16,6 +16,20 @@
     />
     <ItemsList
       @handleCardClick="takeCardData"
+      v-if="isMovieShown"
+      title="Cartoons Movies"
+      :movieList="cartoons"
+      :id="'cartoons'"
+    />
+    <ItemsList
+      @handleCardClick="takeCardData"
+      v-if="isSeriesShown"
+      title="Cartoons Series"
+      :movieList="cartoonsTv"
+      :id="'cartoonsTv'"
+    />
+    <ItemsList
+      @handleCardClick="takeCardData"
       v-if="isSeriesShown"
       title="Discover Italian Series"
       :movieList="discoverItalianTv"
@@ -23,10 +37,10 @@
     />
     <ItemsList
       @handleCardClick="takeCardData"
-      v-if="isSeriesShown"
-      title="Discover Ukrainian Series"
-      :movieList="discoverUkrainianTv"
-      :id="'discoverUkrainianTv2'"
+      v-if="isMovieShown"
+      title="Horror Night"
+      :movieList="horrorMovies"
+      :id="'horrorMovies2'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
@@ -34,6 +48,13 @@
       title="Tranding Now"
       :movieList="trandingNow"
       :id="'tranding2'"
+    />
+    <ItemsList
+      @handleCardClick="takeCardData"
+      v-if="isSeriesShown"
+      title="Discover Ukrainian Series"
+      :movieList="discoverUkrainianTv"
+      :id="'discoverUkrainianTv2'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
@@ -48,6 +69,20 @@
       title="Upcoming Movies in USA"
       :movieList="upcomingMoviesUSA"
       :id="'upcomingUSA3'"
+    />
+    <ItemsList
+      @handleCardClick="takeCardData"
+      v-if="isSeriesShown"
+      title="Documentries"
+      :movieList="documentary"
+      :id="'documentary2'"
+    />
+    <ItemsList
+      @handleCardClick="takeCardData"
+      v-if="isMovieShown"
+      title="It's Crime Time"
+      :movieList="crimeMovie"
+      :id="'crimeMovie5'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
@@ -107,6 +142,11 @@ export default {
       discoverTv: [],
       discoverItalianTv: [],
       discoverUkrainianTv: [],
+      cartoons: [],
+      cartoonsTv: [],
+      crimeMovie: [],
+      documentary: [],
+      horrorMovies: [],
       currentMovieId: 0,
       currentMovieType: "",
       language: "it-IT",
@@ -161,13 +201,54 @@ export default {
       with_networks: "213",
       with_original_language: "it",
     });
+    this.getElementsList("discover/movie", this.cartoons, {
+      api_key,
+      language: this.language,
+      watch_region: "IT",
+      sort_by: "popularity.desc",
+      with_genres: "16",
+      // with_networks: "213",
+      // with_original_language: "it",
+    });
+    this.getElementsList("discover/tv", this.cartoonsTv, {
+      api_key,
+      language: this.language,
+      watch_region: "IT",
+      sort_by: "popularity.desc",
+      with_genres: "16",
+      // with_networks: "213",
+      // with_original_language: "it",
+    });
+    this.getElementsList("discover/movie", this.crimeMovie, {
+      api_key,
+      language: this.language,
+      watch_region: "IT",
+      sort_by: "popularity.desc",
+      with_genres: "80",
+      with_networks: "213",
+      // with_original_language: "it",
+    });
+    this.getElementsList("discover/tv", this.documentary, {
+      api_key,
+      language: this.language,
+      watch_region: "US",
+      sort_by: "popularity.desc",
+      with_genres: "99",
+      with_networks: "213",
+      // with_original_language: "it",
+    });
+    this.getElementsList("discover/movie", this.horrorMovies, {
+      api_key,
+      language: this.language,
+      watch_region: "US",
+      sort_by: "popularity.desc",
+      with_genres: "27",
+      with_networks: "213",
+      // with_original_language: "it",
+    });
     this.getElementsList("discover/tv", this.discoverUkrainianTv, {
       api_key,
-      // language: this.language,
-      // watch_region: "IT",
       sort_by: "popularity.desc",
-      // with_genres: "18",
-      // with_networks: "213",
       with_original_language: "uk",
     });
   },
