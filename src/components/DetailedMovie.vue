@@ -4,6 +4,11 @@
     <div class="detailed__card">
       <img :src="bgImage" alt="" />
       <div class="detailed__card-bg">
+        <div class="detailed__close-btn">
+          <button class="icon-btn" @click="closeWindow">
+            <img :src="closeIcon" alt="" />
+          </button>
+        </div>
         <div class="detailed__card-info">
           <img
             :src="getPoster(movie.poster_path, 'w342')"
@@ -22,25 +27,42 @@
             <h6 class="detailed__card-info__content-subtitle">
               {{ movie.tagline }}
             </h6>
-            <div class="detailed__card-info__content-additional">
-              <p>{{ setDateToYear(movie.release_date) }}</p>
-              <p v-if="movie.runtime">{{ movie.runtime }} min</p>
-              <p v-if="movie.number_of_seasons">
-                {{ movie.number_of_seasons }} season{{
-                  movie.number_of_seasons > 1 ? "s" : ""
-                }}
-              </p>
-              <p
-                v-if="movie.vote_average"
-                class="detailed__card-info__content-additional-valutation"
-              >
-                {{ movie.vote_average }}
-              </p>
+            <div class="detailed__card-info__container">
+              <div class="detailed__card-info__content-additional">
+                <p>{{ setDateToYear(movie.release_date) }}</p>
+                <p v-if="movie.runtime">{{ movie.runtime }} min</p>
+                <p v-if="movie.number_of_seasons">
+                  {{ movie.number_of_seasons }} season{{
+                    movie.number_of_seasons > 1 ? "s" : ""
+                  }}
+                </p>
+                <p
+                  v-if="movie.vote_average"
+                  class="detailed__card-info__content-additional-valutation"
+                >
+                  {{ movie.vote_average }}
+                </p>
+              </div>
+              <div>
+                <button
+                  v-if="recommendation.length > 0"
+                  class="btn secondary-btn"
+                  @click="handleRecommendationClick"
+                >
+                  {{ isRecomenationShown ? "Hide similar" : "See similar" }}
+                </button>
+              </div>
             </div>
-            <div class="detailed__card-info__content-overview">
+            <div
+              class="detailed__card-info__content-overview"
+              v-if="!isRecomenationShown"
+            >
               <p>{{ movie.overview }}</p>
             </div>
-            <div class="detailed__card-info__content-cast">
+            <div
+              class="detailed__card-info__content-cast"
+              v-if="!isRecomenationShown"
+            >
               <div
                 class="cast-element"
                 v-for="element in cast"
@@ -53,6 +75,32 @@
                 <p class="cast-element__character">{{ element.character }}</p>
               </div>
             </div>
+            <div
+              class="detailed__card-info__content-recommendations"
+              v-if="isRecomenationShown"
+            >
+              <CardComponent
+                v-for="{
+                  title,
+                  id,
+                  poster_path,
+                  vote_average,
+                  original_title,
+                  language,
+                  origin_country,
+                  media_type,
+                } in recommendation"
+                :id="id"
+                :title="title"
+                :key="id + title + original_title + poster_path"
+                :poster="poster_path"
+                :vote_average="vote_average"
+                :original_title="original_title"
+                :language="language"
+                :origin_country="origin_country"
+                :media_type="media_type"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -63,6 +111,8 @@
 <script>
 import axios from "axios";
 import { api_key } from "../data/api_key";
+import CardComponent from "./CardComponent.vue";
+import closeIcon from "../img/icons/x-circle-fill.svg";
 
 export default {
   name: "DetailedMovie",
@@ -74,7 +124,13 @@ export default {
       // movieId: this.currentMovie,
       bgImage: "",
       cast: [],
+      recommendation: [],
+      isRecomenationShown: false,
+      closeIcon,
     };
+  },
+  components: {
+    CardComponent,
   },
   props: {
     currentMovieId: {
@@ -129,7 +185,7 @@ export default {
             "original"
           );
           this.movie.id = response.data.id;
-
+          this.getRecommendations();
           this.getCredit(this.movie.id);
         })
         .catch((error) => {
@@ -162,7 +218,54 @@ export default {
       return date.split("-")[0];
     },
     closeWindow() {
+      this.isRecomenationShown = false;
       this.$emit("closeWindow");
+    },
+    handleRecommendationClick() {
+      this.isRecomenationShown = !this.isRecomenationShown;
+      this.getRecommendations();
+    },
+    getRecommendations() {
+      this.recommendation = [];
+      // if (this.currentMovieType === "movie") {
+      let params = {
+        api_key: this.api_key,
+        language: this.selectedLanguage,
+        page: 1,
+      };
+      let result = [];
+      axios
+        .get(`https://api.themoviedb.org/3/movie/${this.movie.id}/similar`, {
+          params,
+        })
+        .then((response) => {
+          result = response.data.results.slice(0, 10);
+          console.log("result", result);
+          this.filterData(result, this.recommendation);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      // console.log("recomendation", this.recommendation);
+    },
+
+    filterData(results, elementsList) {
+      results.forEach((movie) => {
+        if (movie.poster_path && (movie.title || movie.name)) {
+          elementsList.push({
+            title: movie.title || movie.name,
+            id: movie.id,
+            media_type: movie.title ? "movie" : "tv",
+            poster_path: movie.poster_path,
+            vote_average: movie.vote_average,
+            original_title: movie.original_title
+              ? movie.original_title
+              : movie.original_name,
+            language: movie.original_language,
+            origin_country: movie.origin_country ? movie.origin_country[0] : "",
+          });
+        }
+      });
     },
   },
 };
@@ -187,13 +290,29 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60vw;
-  height: 60vh;
+  width: 70vw;
+  height: 70vh;
   background: $bf-background-color;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   z-index: 10;
   overflow: hidden;
+
+  .detailed__close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 20;
+    margin-right: -9px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
 
   & > img {
     width: 100%;
@@ -221,6 +340,10 @@ export default {
       justify-content: flex-start;
       align-items: center;
       gap: 10px;
+      overflow: hidden;
+      @media screen and (max-width: $bf-screen-sm) {
+        align-items: flex-start;
+      }
     }
 
     .detailed__card-info-img {
@@ -231,6 +354,9 @@ export default {
     }
 
     .detailed__card-info__content {
+      width: 100%;
+      max-width: 100%;
+      overflow: hidden;
       &-overline {
         display: flex;
         flex-direction: row;
@@ -260,6 +386,13 @@ export default {
         margin-bottom: 10px;
         margin-top: 0;
         color: #fff;
+      }
+      .detailed__card-info__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
       }
       &-additional {
         display: flex;
@@ -346,6 +479,7 @@ export default {
       flex-wrap: wrap;
       justify-content: center;
       overflow: auto;
+      align-content: flex-start;
     }
     .detailed__card-info-img {
       width: 35%;
@@ -385,6 +519,17 @@ export default {
         }
       }
     }
+  }
+  .detailed__card-info__content-recommendations {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: auto;
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 0;
   }
 }
 </style>

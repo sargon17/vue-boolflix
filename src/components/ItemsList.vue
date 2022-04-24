@@ -8,6 +8,7 @@
       <button
         class="items-list__cards__nav-btn items-list__cards__nav-btn--prev"
         @click="scrollLeft"
+        @touchend="scrollLeft"
       >
         <img :src="caretLeft" alt="" />
       </button>
@@ -38,6 +39,7 @@
       <button
         class="items-list__cards__nav-btn items-list__cards__nav-btn--next"
         @click="scrollRight"
+        @touchend="scrollRight"
       >
         <img :src="caretRight" alt="" />
       </button>
@@ -194,6 +196,12 @@ export default {
       padding: 20px;
       padding-left: 20px;
       padding-right: 20px;
+      overflow: auto;
+    }
+    .items-list__items {
+      .items-list__cards__nav-btn {
+        display: none;
+      }
     }
   }
 }

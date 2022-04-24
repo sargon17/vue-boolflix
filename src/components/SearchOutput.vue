@@ -143,18 +143,20 @@ export default {
     },
     getItems(query = "", page = 1) {
       let finalQuery = query.trim().split(" ").join("%20");
-      // console.log(query);
+      let params = {
+        api_key: this.api_key,
+        language: this.selectLanguage,
+        query: finalQuery,
+        page,
+        include_adult: false,
+        region: "IT",
+        sort_by: "popularity.desc",
+      };
       axios
-        .get(
-          `https://api.themoviedb.org/3/search/${this.searchBy}?api_key=${this.api_key}&language=${this.selectLanguage}&query=${finalQuery}&include_adult=false&region=IT&page=${page}sort_by=popularity.desc`
-        )
+        .get(`https://api.themoviedb.org/3/search/${this.searchBy}?`, {
+          params,
+        })
         .then((response) => {
-          if (response.data.results.length < 20) {
-            this.isMorePageAviable = false;
-            return;
-          } else {
-            this.isMorePageAviable = true;
-          }
           let results = [];
           if (this.selectedGenre !== "multi") {
             // console.log("selected genre", this.selectedGenre);
@@ -162,14 +164,12 @@ export default {
               if (element.genre_ids.includes(this.selectedGenre)) {
                 results.push(element);
               }
-              // console.log("results", results);
+              console.log("results", results);
             });
           } else {
             results = response.data.results;
-            console.log("results", results);
           }
           results.forEach((movie) => {
-            // console.log("movie", movie);
             if (!this.displayedItemsIds.includes(movie.id)) {
               if (movie.poster_path && (movie.title || movie.name)) {
                 this.result.push({
@@ -190,9 +190,7 @@ export default {
               }
             }
           });
-        })
-        .then(() => {
-          if (this.result.length < 20 * this.pagesToDisplay) {
+          if (response.data.results < 20 * this.pagesToDisplay) {
             this.isMorePageAviable = false;
             return;
           } else {
@@ -216,7 +214,7 @@ export default {
               name: genre.name,
             });
           });
-          console.log("genres", this.genres);
+          // console.log("genres", this.genres);
         })
         .catch((error) => {
           console.log(error);
