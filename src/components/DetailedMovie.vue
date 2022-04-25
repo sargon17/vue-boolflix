@@ -82,7 +82,7 @@
               @wheel="(e) => handleRecommendationScroll(e)"
             >
               <CardComponent
-                @handleCardClick="openNewDetiledCard"
+                @handleCardClick="openNewDetailedCard"
                 v-for="{
                   title,
                   id,
@@ -129,6 +129,7 @@ export default {
       cast: [],
       recommendation: [],
       isRecomenationShown: false,
+      recommendationIds: [],
       closeIcon,
       movieId: 0,
       movieType: "",
@@ -171,7 +172,7 @@ export default {
         )
         .then((response) => {
           // this.movie = response.data;
-          // console.log(response.data);
+          console.log(response.data);
           this.movie.title = response.data.title
             ? response.data.title
             : response.data.name;
@@ -234,9 +235,34 @@ export default {
       this.isRecomenationShown = !this.isRecomenationShown;
       this.getRecommendations();
     },
+    // Old Recomendation request
+    // getRecommendations() {
+    //   this.recommendation = [];
+    //   // if (this.currentMovieType === "movie") {
+    //   let params = {
+    //     api_key: this.api_key,
+    //     language: this.selectedLanguage,
+    //     include_adult: false,
+    //     page: 1,
+    //     sort_by: "popularity.desc",
+    //   };
+    //   let result = [];
+    //   axios
+    //     .get(`https://api.themoviedb.org/3/movie/${this.movie.id}/similar`, {
+    //       params,
+    //     })
+    //     .then((response) => {
+    //       result = response.data.results.slice(0, 10);
+    //       // console.log("result", result);
+    //       this.filterData(result, this.recommendation);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    //   // console.log("recomendation", this.recommendation);
+    // },
     getRecommendations() {
       this.recommendation = [];
-      // if (this.currentMovieType === "movie") {
       let params = {
         api_key: this.api_key,
         language: this.selectedLanguage,
@@ -244,12 +270,15 @@ export default {
       };
       let result = [];
       axios
-        .get(`https://api.themoviedb.org/3/movie/${this.movie.id}/similar`, {
-          params,
-        })
+        .get(
+          `https://api.themoviedb.org/3/movie/${this.movie.id}/recommendations`,
+          {
+            params,
+          }
+        )
         .then((response) => {
-          result = response.data.results.slice(0, 10);
-          console.log("result", result);
+          result = response.data.results.slice(0, 15);
+          // console.log("result", result);
           this.filterData(result, this.recommendation);
         })
         .catch((error) => {
@@ -257,8 +286,9 @@ export default {
         });
       // console.log("recomendation", this.recommendation);
     },
+
     // function that allow to open new detailed card after click on recommended one
-    openNewDetiledCard(data) {
+    openNewDetailedCard(data) {
       this.isRecomenationShown = false;
       const [id, media_type] = data;
       this.movieId = id;

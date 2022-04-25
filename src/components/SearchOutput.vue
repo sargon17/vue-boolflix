@@ -152,7 +152,7 @@ export default {
           language: this.selectLanguage,
           query: query,
           page,
-          include_adult: false,
+          // include_adult: false,
           region: "IT",
           sort_by: "popularity.desc",
           genre: this.selectedGenre,
@@ -169,7 +169,7 @@ export default {
                 if (element.genre_ids.includes(this.selectedGenre)) {
                   results.push(element);
                 }
-                console.log("results", results);
+                // console.log("results", results);
               });
             } else {
               results = response.data.results;
@@ -205,7 +205,6 @@ export default {
           .catch((error) => {
             console.log(error);
           });
-        //   this.sortByGenres();
         if (this.selectedGenre !== "multi" && this.result.length <= 5) {
           this.getItems(this.searchValue, page + 1, true);
         }
@@ -252,14 +251,6 @@ export default {
           console.log(error);
         });
     },
-    // sortByGenres() {
-    //   // console.log(this.selectedGenre);
-    //   if (this.selectedGenre !== "All") {
-    //     this.result = this.result.filter((movie) =>
-    //       movie.genre_ids.includes(this.selectedGenre)
-    //     );
-    //   }
-    // },
     getMoreResults() {
       this.pagesToDisplay += 1;
       this.getItems(this.searchValue, this.pagesToDisplay);
@@ -279,7 +270,7 @@ export default {
       e.preventDefault();
       const element = document.querySelector("#searchOutput");
       element.scrollBy({
-        top: -e.wheelDeltaY * 4,
+        top: -e.wheelDeltaY * 2,
         behavior: "smooth",
       });
     },
