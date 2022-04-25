@@ -78,8 +78,11 @@
             <div
               class="detailed__card-info__content-recommendations"
               v-if="isRecomenationShown"
+              id="recommendations"
+              @wheel="(e) => handleRecommendationScroll(e)"
             >
               <CardComponent
+                @handleCardClick="openNewDetiledCard"
                 v-for="{
                   title,
                   id,
@@ -127,6 +130,8 @@ export default {
       recommendation: [],
       isRecomenationShown: false,
       closeIcon,
+      movieId: 0,
+      movieType: "",
     };
   },
   components: {
@@ -151,6 +156,10 @@ export default {
   },
   watch: {
     currentMovieId: function () {
+      this.movieId = this.currentMovieId;
+      this.movieType = this.currentMovieType;
+    },
+    movieId: function () {
       this.getMovie();
     },
   },
@@ -158,7 +167,7 @@ export default {
     getMovie() {
       axios
         .get(
-          `https://api.themoviedb.org/3/${this.currentMovieType}/${this.currentMovieId}?api_key=${this.api_key}&language=${this.selectedLanguage}`
+          `https://api.themoviedb.org/3/${this.movieType}/${this.movieId}?api_key=${this.api_key}&language=${this.selectedLanguage}`
         )
         .then((response) => {
           // this.movie = response.data;
@@ -196,7 +205,7 @@ export default {
       this.cast = [];
       axios
         .get(
-          `https://api.themoviedb.org/3/${this.currentMovieType}/${id}/credits?api_key=${this.api_key}`
+          `https://api.themoviedb.org/3/${this.movieType}/${id}/credits?api_key=${this.api_key}`
         )
         .then((response) => {
           this.credit = response.data;
@@ -247,6 +256,23 @@ export default {
           console.log(error);
         });
       // console.log("recomendation", this.recommendation);
+    },
+    // function that allow to open new detailed card after click on recommended one
+    openNewDetiledCard(data) {
+      this.isRecomenationShown = false;
+      const [id, media_type] = data;
+      this.movieId = id;
+      this.movieType = media_type;
+    },
+
+    // function that allow to scroll through the cards
+    handleRecommendationScroll(e) {
+      e.preventDefault();
+      const element = document.querySelector("#recommendations");
+      element.scrollBy({
+        left: -e.wheelDeltaY * 2,
+        behavior: "smooth",
+      });
     },
 
     filterData(results, elementsList) {
@@ -306,7 +332,6 @@ export default {
     height: 40px;
     cursor: pointer;
     z-index: 20;
-    margin-right: -9px;
 
     img {
       width: 24px;
@@ -436,6 +461,7 @@ export default {
 
         .cast-element {
           width: 20%;
+          max-width: 100px;
           height: 150px;
 
           &__img {

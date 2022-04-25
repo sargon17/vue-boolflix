@@ -1,6 +1,10 @@
 <template>
   <div>
-    <div class="search-out__bg">
+    <div
+      class="search-out__bg"
+      id="searchOutput"
+      @wheel="(e) => handleScroll(e)"
+    >
       <div class="search-out__additional-controls">
         <div class="select-box">
           <label for="type">Scegli per tipo</label>
@@ -142,11 +146,10 @@ export default {
       this.getItems(this.searchValue, this.pagesToDisplay);
     },
     getItems(query = "", page = 1) {
-      let finalQuery = query.trim().split(" ").join("%20");
       let params = {
         api_key: this.api_key,
         language: this.selectLanguage,
-        query: finalQuery,
+        query: query,
         page,
         include_adult: false,
         region: "IT",
@@ -260,6 +263,14 @@ export default {
     },
     closeDetailedWindow() {
       this.isCardShown = false;
+    },
+    handleScroll(e) {
+      e.preventDefault();
+      const element = document.querySelector("#searchOutput");
+      element.scrollBy({
+        top: -e.wheelDeltaY * 4,
+        behavior: "smooth",
+      });
     },
   },
 };
