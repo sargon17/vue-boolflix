@@ -143,67 +143,73 @@ export default {
       this.displayedItemsIds = [];
       this.pagesToDisplay = 1;
       this.result = [];
-      this.getItems(this.searchValue, this.pagesToDisplay);
+      this.getItems(this.searchValue, this.pagesToDisplay, false);
     },
-    getItems(query = "", page = 1) {
-      let params = {
-        api_key: this.api_key,
-        language: this.selectLanguage,
-        query: query,
-        page,
-        include_adult: false,
-        region: "IT",
-        sort_by: "popularity.desc",
-      };
-      axios
-        .get(`https://api.themoviedb.org/3/search/${this.searchBy}?`, {
-          params,
-        })
-        .then((response) => {
-          let results = [];
-          if (this.selectedGenre !== "multi") {
-            // console.log("selected genre", this.selectedGenre);
-            response.data.results.forEach((element) => {
-              if (element.genre_ids.includes(this.selectedGenre)) {
-                results.push(element);
-              }
-              console.log("results", results);
-            });
-          } else {
-            results = response.data.results;
-          }
-          results.forEach((movie) => {
-            if (!this.displayedItemsIds.includes(movie.id)) {
-              if (movie.poster_path && (movie.title || movie.name)) {
-                this.result.push({
-                  title: movie.title || movie.name,
-                  id: movie.id,
-                  media_type: movie.title ? "movie" : "tv",
-                  poster_path: movie.poster_path,
-                  vote_average: movie.vote_average,
-                  original_title: movie.original_title
-                    ? movie.original_title
-                    : movie.original_name,
-                  language: movie.original_language,
-                  origin_country: movie.origin_country
-                    ? movie.origin_country[0]
-                    : "",
-                });
-                this.displayedItemsIds.push(movie.id);
-              }
+    getItems(query = "", page = 1, isRecursive = false) {
+      if (page <= 20 || !isRecursive) {
+        let params = {
+          api_key: this.api_key,
+          language: this.selectLanguage,
+          query: query,
+          page,
+          include_adult: false,
+          region: "IT",
+          sort_by: "popularity.desc",
+          genre: this.selectedGenre,
+        };
+        axios
+          .get(`https://api.themoviedb.org/3/search/${this.searchBy}?`, {
+            params,
+          })
+          .then((response) => {
+            let results = [];
+            if (this.selectedGenre !== "multi") {
+              // console.log("selected genre", this.selectedGenre);
+              response.data.results.forEach((element) => {
+                if (element.genre_ids.includes(this.selectedGenre)) {
+                  results.push(element);
+                }
+                console.log("results", results);
+              });
+            } else {
+              results = response.data.results;
             }
+            results.forEach((movie) => {
+              if (!this.displayedItemsIds.includes(movie.id)) {
+                if (movie.poster_path && (movie.title || movie.name)) {
+                  this.result.push({
+                    title: movie.title || movie.name,
+                    id: movie.id,
+                    media_type: movie.title ? "movie" : "tv",
+                    poster_path: movie.poster_path,
+                    vote_average: movie.vote_average,
+                    original_title: movie.original_title
+                      ? movie.original_title
+                      : movie.original_name,
+                    language: movie.original_language,
+                    origin_country: movie.origin_country
+                      ? movie.origin_country[0]
+                      : "",
+                  });
+                  this.displayedItemsIds.push(movie.id);
+                }
+              }
+            });
+            if (response.data.results < 20 * this.pagesToDisplay) {
+              this.isMorePageAviable = false;
+              return;
+            } else {
+              this.isMorePageAviable = true;
+            }
+          })
+          .catch((error) => {
+            console.log(error);
           });
-          if (response.data.results < 20 * this.pagesToDisplay) {
-            this.isMorePageAviable = false;
-            return;
-          } else {
-            this.isMorePageAviable = true;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      //   this.sortByGenres();
+        //   this.sortByGenres();
+        if (this.selectedGenre !== "multi" && this.result.length <= 5) {
+          this.getItems(this.searchValue, page + 1, true);
+        }
+      }
     },
     getGenres() {
       axios
@@ -236,19 +242,24 @@ export default {
               name: language.english_name,
             });
           });
+          this.languages.sort((a, b) => {
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
+          });
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    sortByGenres() {
-      // console.log(this.selectedGenre);
-      if (this.selectedGenre !== "All") {
-        this.result = this.result.filter((movie) =>
-          movie.genre_ids.includes(this.selectedGenre)
-        );
-      }
-    },
+    // sortByGenres() {
+    //   // console.log(this.selectedGenre);
+    //   if (this.selectedGenre !== "All") {
+    //     this.result = this.result.filter((movie) =>
+    //       movie.genre_ids.includes(this.selectedGenre)
+    //     );
+    //   }
+    // },
     getMoreResults() {
       this.pagesToDisplay += 1;
       this.getItems(this.searchValue, this.pagesToDisplay);
