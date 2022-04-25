@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-api_key.js
+src/data/api_key.js
 
 
 # local env files
