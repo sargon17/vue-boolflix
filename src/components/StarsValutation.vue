@@ -7,10 +7,10 @@
     ></i>
     <i
       class="fa-regular fa-star"
-      v-for="n in emptyStars"
-      :key="n + 'empty'"
+      v-for="index in emptyStars"
+      :key="index + 'empty'"
     ></i>
-    <!-- <i class="fa-regular fa-star"></i> -->
+    <i class="fa-regular fa-star"></i>
   </div>
 </template>
 
@@ -19,8 +19,9 @@ export default {
   name: "StarsValutation",
   data() {
     return {
-      fullStars: 0,
-      emptyStars: 0,
+      vote: 0,
+      fullStars: [],
+      emptyStars: [],
     };
   },
   props: {
@@ -30,11 +31,13 @@ export default {
     },
   },
   mounted() {
-    let vote = ((this.vote_average / 10) * 5).toFixed(0);
-    console.log(vote);
-    this.fullStars = vote;
-    console.log(this.fullStars);
-    this.emptyStars = 5 - vote;
+    this.vote = ((this.vote_average / 10) * 5).toFixed(0);
+    for (let i = 1; i <= this.vote; i++) {
+      this.fullStars.push(i);
+    }
+    for (let i = 1; i < 5 - this.vote; i++) {
+      this.emptyStars.push(i);
+    }
   },
 };
 </script>
