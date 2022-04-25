@@ -152,7 +152,7 @@ export default {
           language: this.selectLanguage,
           query: query,
           page,
-          // include_adult: false,
+          include_adult: false,
           region: "IT",
           sort_by: "popularity.desc",
           genre: this.selectedGenre,

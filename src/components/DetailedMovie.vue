@@ -172,7 +172,6 @@ export default {
         )
         .then((response) => {
           // this.movie = response.data;
-          console.log(response.data);
           this.movie.title = response.data.title
             ? response.data.title
             : response.data.name;
