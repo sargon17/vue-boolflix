@@ -5,10 +5,6 @@
       <div class="hero__img-bg"></div>
     </div>
     <div class="hero-new-movie-info">
-      <div class="hero-new-movie-info__netflix-serie">
-        <img :src="netflixLogo" alt="netflix logo" />
-        <h6>Show</h6>
-      </div>
       <div class="hero-new-movie-info__title">
         <h1>{{ mainMovie.title || mainMovie.name }}</h1>
         <h6>{{ maxTextLength(mainMovie.overview, 220) }}</h6>
@@ -61,10 +57,15 @@ export default {
     };
   },
   mounted() {
+    let params = {
+      api_key: this.api_key,
+      language: this.selectedLanguage,
+      has_networks: 213,
+    };
     axios
-      .get(
-        `https://api.themoviedb.org/3/trending/all/week?api_key=${this.api_key}&language=it-IT&region=IT`
-      )
+      .get("https://api.themoviedb.org/3/trending/all/week?", {
+        params,
+      })
       .then((response) => {
         this.mainMovie =
           response.data.results[
