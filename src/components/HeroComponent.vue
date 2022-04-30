@@ -7,6 +7,23 @@
     <div class="hero-new-movie-info">
       <div class="hero-new-movie-info__title">
         <h1>{{ mainMovie.title || mainMovie.name }}</h1>
+        <div class="chip-row">
+          <chip-element
+            v-if="release_date"
+            :type="'release_date'"
+            :value="release_date.toString()"
+          />
+          <chip-element
+            v-if="runtime"
+            :type="'runtime'"
+            :value="runtime.toString()"
+          />
+          <chip-element
+            v-if="vote_average"
+            :type="'vote_average'"
+            :value="vote_average.toString()"
+          />
+        </div>
         <h6>{{ maxTextLength(mainMovie.overview, 220) }}</h6>
       </div>
       <div class="hero-new-movie-info__toolbox">
@@ -37,11 +54,13 @@ import infoIcon from "../img/icons/info.svg";
 import axios from "axios";
 import { api_key } from "../data/api_key";
 import DetailedMovie from "./DetailedMovie.vue";
+import ChipElement from "./sub_components/ChipElement.vue";
 
 export default {
   name: "HeroComponent",
   components: {
     DetailedMovie,
+    ChipElement,
   },
   data() {
     return {
@@ -54,6 +73,9 @@ export default {
       currentMovieType: "",
       selectedLanguage: "it",
       isCardShown: false,
+      runtime: 0,
+      vote_average: 0,
+      release_date: "",
     };
   },
   mounted() {
@@ -75,6 +97,9 @@ export default {
         this.currentMovieType = this.mainMovie.media_type
           ? this.mainMovie.media_type
           : "tv";
+        this.runtime = this.mainMovie.runtime;
+        this.vote_average = this.mainMovie.vote_average;
+        this.release_date = this.mainMovie.release_date;
       })
       .catch((error) => {
         console.log(error);
@@ -244,5 +269,13 @@ export default {
       }
     }
   }
+}
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
 }
 </style>
