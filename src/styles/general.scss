@@ -32,6 +32,10 @@ body {
   &:hover {
     background-color: $bf-background-color-transparent;
   }
+  &:active {
+    transition: $bf-transition-click;
+    transform: scale(0.95);
+  }
   @media screen and (max-width: $bf-screen-sm) {
     font-size: $bf-text-size-sm;
     padding: 4px;
@@ -78,6 +82,7 @@ body {
   }
 
   &:active {
+    transition: $bf-transition-click;
     transform: scale(0.98);
   }
   @media screen and (max-width: $bf-screen-sm) {

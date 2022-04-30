@@ -5,15 +5,20 @@ $bf-background-color-transparent: #e2e2e225;
 $bf-netflix-color: #e50914;
 $bf-secondary-btn-color: rgba(255, 255, 255, 0.5);
 
+// white
 $bf-white-normal: rgb(255, 255, 255);
 $bf-white-normal-hover: rgb(230, 230, 230);
 $bf-white-normal-active: rgb(204, 204, 204);
+
+// white transparent
 $bf-white-transparent: rgba(255, 255, 255, 0.5);
 $bf-white-transparent-hover: rgba(230, 230, 230, 0.5);
 $bf-white-transparent-active: rgba(204, 204, 204, 0.5);
 
-$bf-gray: #e2e2e2;
-$bf-gray-darker: #8e8e8e;
+// dark grey
+$bf-grey-normal: rgb(45, 45, 45);
+$bf-grey-normal-hover: rgb(41, 41, 41);
+$bf-grey-normal-active: rgb(36, 36, 36);
 
 $bf-text-color: $bf-white-normal;
 $bf-text-secondary-color: rgb(171, 171, 171);
@@ -62,3 +67,5 @@ $bf-valutation-medium: #a6a610;
 $bf-valutation-medium-hover: #f9f907;
 $bf-valutation-high: #45c61a;
 $bf-valutation-high-hover: #4cff10;
+
+$bf-shadow: 0px 8px 40px rgba(0, 0, 0, 0.5);

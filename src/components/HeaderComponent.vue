@@ -204,11 +204,12 @@ export default {
     gap: 24px;
 
     &__search {
-      background: #2d2d2df6;
+      background: $bf-grey-normal;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-radius: $bf-border-radius;
+      margin: 0 4px;
       &__input {
         padding: 0rem 1rem;
         background: none;
@@ -223,6 +224,15 @@ export default {
         &:focus {
           outline: none;
         }
+      }
+
+      &:hover {
+        background: $bf-grey-normal-hover;
+      }
+      &:active {
+        transition: $bf-transition-click;
+        background: $bf-grey-normal-active;
+        transform: scale(0.99);
       }
     }
   }

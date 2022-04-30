@@ -110,6 +110,7 @@ export default {
   &:hover {
     transform: scale(1.1);
     z-index: 3;
+    box-shadow: $bf-shadow;
   }
   &:hover .card-info {
     transform: translateY(0);
