@@ -30,7 +30,10 @@
             <div class="detailed__card-info__container">
               <div class="detailed__card-info__content-additional">
                 <p>{{ setDateToYear(movie.release_date) }}</p>
-                <p v-if="movie.runtime">{{ movie.runtime }} min</p>
+                <p v-if="movie.runtime">
+                  <font-awesome-icon icon="fa-solid fa-clock" />
+                  {{ movie.runtime }} min
+                </p>
                 <p v-if="movie.number_of_seasons">
                   {{ movie.number_of_seasons }} season{{
                     movie.number_of_seasons > 1 ? "s" : ""
@@ -40,6 +43,7 @@
                   v-if="movie.vote_average"
                   class="detailed__card-info__content-additional-valutation"
                 >
+                  <font-awesome-icon icon="fa-solid fa-thumbs-up" />
                   {{ movie.vote_average }}
                 </p>
               </div>
@@ -234,32 +238,6 @@ export default {
       this.isRecomenationShown = !this.isRecomenationShown;
       this.getRecommendations();
     },
-    // Old Recomendation request
-    // getRecommendations() {
-    //   this.recommendation = [];
-    //   // if (this.currentMovieType === "movie") {
-    //   let params = {
-    //     api_key: this.api_key,
-    //     language: this.selectedLanguage,
-    //     include_adult: false,
-    //     page: 1,
-    //     sort_by: "popularity.desc",
-    //   };
-    //   let result = [];
-    //   axios
-    //     .get(`https://api.themoviedb.org/3/movie/${this.movie.id}/similar`, {
-    //       params,
-    //     })
-    //     .then((response) => {
-    //       result = response.data.results.slice(0, 10);
-    //       // console.log("result", result);
-    //       this.filterData(result, this.recommendation);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    //   // console.log("recomendation", this.recommendation);
-    // },
     getRecommendations() {
       this.recommendation = [];
       let params = {
@@ -423,7 +401,7 @@ export default {
         letter-spacing: 1px;
         gap: 15px;
 
-        p {
+        & p {
           color: $bf-text-secondary-color;
         }
       }
@@ -461,8 +439,12 @@ export default {
         gap: 15px;
         margin-bottom: 20px;
 
-        p {
+        & p {
           color: $bf-text-secondary-color;
+
+          & * {
+            color: $bf-text-secondary-color;
+          }
         }
         & > .detailed__card-info__content-additional-valutation {
           color: $bf-text-valutation-color;
