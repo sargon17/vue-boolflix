@@ -12,10 +12,10 @@ $bf-text-valutation-color: rgb(58, 176, 37);
 $bf-font-family: "Open Sans", sans-serif;
 $bf-text-thin: 400;
 $bf-text-bold: 700;
-$bf-text-size-xxSmall: 10px;
-$bf-text-size-xSmall: 14px;
-$bf-text-size-small: 16px;
-$bf-text-size-medium: 20px;
+$bf-text-size-xxs: 10px;
+$bf-text-size-xs: 14px;
+$bf-text-size-sm: 16px;
+$bf-text-size-md: 20px;
 
 $bf-border-radius: 10px;
 $bf-border-radius-btn: 4px;
@@ -29,3 +29,14 @@ $bf-screen-sm: 600px;
 $bf-screen-md: 960px;
 $bf-screen-lg: 1280px;
 $bf-screen-xl: 1920px;
+
+// chips bg color
+$bf-chips-bg: #ffffff20;
+
+// valutations color
+$bf-valutation-low: #b91818;
+$bf-valutation-low-hover: #f20909;
+$bf-valutation-medium: #a6a610;
+$bf-valutation-medium-hover: #f9f907;
+$bf-valutation-high: #45c61a;
+$bf-valutation-high-hover: #4cff10;

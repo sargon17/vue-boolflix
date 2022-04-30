@@ -33,7 +33,7 @@ body {
     background-color: $bf-background-color-transparent;
   }
   @media screen and (max-width: $bf-screen-sm) {
-    font-size: $bf-text-size-small;
+    font-size: $bf-text-size-sm;
     padding: 4px;
     img {
       width: 20px;
@@ -53,7 +53,7 @@ body {
   justify-content: center;
   align-items: center;
   transition: $bf-transition;
-  font-size: $bf-text-size-small;
+  font-size: $bf-text-size-sm;
 
   &:hover {
     background-color: $bf-background-color-transparent;
@@ -67,7 +67,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: $bf-text-size-small;
+  font-size: $bf-text-size-sm;
   font-weight: $bf-text-bold;
   cursor: pointer;
   transition: $bf-transition;
@@ -81,7 +81,7 @@ body {
   }
 
   @media screen and (max-width: $bf-screen-sm) {
-    font-size: $bf-text-size-small;
+    font-size: $bf-text-size-sm;
     padding: 0.4em 1em;
     img {
       width: 20px;

@@ -314,7 +314,7 @@ export default {
     background-color: $bf-background-color-transparent;
     border: none;
     outline: none;
-    font-size: $bf-text-size-small;
+    font-size: $bf-text-size-sm;
     padding: 0.2rem;
     border-radius: 5px;
     margin: 0 10px;
@@ -361,7 +361,7 @@ export default {
     height: 20vh;
 
     button {
-      font-size: $bf-text-size-small;
+      font-size: $bf-text-size-sm;
     }
   }
   @media screen and (max-width: $bf-screen-sm) {

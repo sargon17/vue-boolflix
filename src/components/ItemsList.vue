@@ -115,7 +115,7 @@ export default {
     margin-bottom: -26px;
 
     h2 {
-      font-size: $bf-text-size-medium;
+      font-size: $bf-text-size-md;
       font-weight: $bf-text-bold;
     }
   }
@@ -186,7 +186,7 @@ export default {
     &__title {
       margin-left: 20px;
       h2 {
-        font-size: $bf-text-size-small;
+        font-size: $bf-text-size-sm;
       }
       img {
         width: 20px;

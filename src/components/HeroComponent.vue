@@ -173,7 +173,7 @@ export default {
       }
 
       h6 {
-        font-size: $bf-text-size-small;
+        font-size: $bf-text-size-sm;
         font-weight: $bf-text-thin;
         color: #fff;
         max-width: 60vw;
@@ -221,7 +221,7 @@ export default {
         }
         h6 {
           max-width: 80vw;
-          font-size: $bf-text-size-small;
+          font-size: $bf-text-size-sm;
         }
       }
     }
@@ -238,7 +238,7 @@ export default {
         }
         h6 {
           max-width: 80vw;
-          font-size: $bf-text-size-xSmall;
+          font-size: $bf-text-size-xs;
         }
       }
     }

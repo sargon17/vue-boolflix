@@ -170,7 +170,7 @@ export default {
         align-items: center;
 
         &__item {
-          font-size: $bf-text-size-xSmall;
+          font-size: $bf-text-size-xs;
           font-weight: $bf-text-thin;
           color: $bf-text-color;
           margin-left: 1rem;
@@ -215,7 +215,7 @@ export default {
         width: 100%;
         height: 40px;
         border: none;
-        font-size: $bf-text-size-xSmall;
+        font-size: $bf-text-size-xs;
         font-weight: $bf-text-thin;
         color: $bf-text-color;
         transition: $bf-transition;

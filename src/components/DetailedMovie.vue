@@ -29,23 +29,26 @@
             </h6>
             <div class="detailed__card-info__container">
               <div class="detailed__card-info__content-additional">
-                <p>{{ setDateToYear(movie.release_date) }}</p>
-                <p v-if="movie.runtime">
-                  <font-awesome-icon icon="fa-solid fa-clock" />
-                  {{ movie.runtime }} min
-                </p>
-                <p v-if="movie.number_of_seasons">
-                  {{ movie.number_of_seasons }} season{{
-                    movie.number_of_seasons > 1 ? "s" : ""
-                  }}
-                </p>
-                <p
+                <chip-element
+                  v-if="movie.runtime"
+                  :value="movie.release_date.toString()"
+                  :type="'release_date'"
+                />
+                <chip-element
+                  v-if="movie.runtime"
+                  :value="movie.runtime.toString()"
+                  :type="'runtime'"
+                />
+                <chip-element
+                  v-if="movie.number_of_seasons"
+                  :value="movie.number_of_seasons.toString()"
+                  :type="'number_of_seasons'"
+                />
+                <chip-element
                   v-if="movie.vote_average"
-                  class="detailed__card-info__content-additional-valutation"
-                >
-                  <font-awesome-icon icon="fa-solid fa-thumbs-up" />
-                  {{ movie.vote_average }}
-                </p>
+                  :value="movie.vote_average.toString()"
+                  :type="'vote_average'"
+                />
               </div>
               <div>
                 <button
@@ -120,6 +123,7 @@ import axios from "axios";
 import { api_key } from "../data/api_key";
 import CardComponent from "./CardComponent.vue";
 import closeIcon from "../img/icons/x-circle-fill.svg";
+import ChipElement from "./sub_components/ChipElement.vue";
 
 export default {
   name: "DetailedMovie",
@@ -141,6 +145,7 @@ export default {
   },
   components: {
     CardComponent,
+    ChipElement,
   },
   props: {
     currentMovieId: {
@@ -175,6 +180,7 @@ export default {
           `https://api.themoviedb.org/3/${this.movieType}/${this.movieId}?api_key=${this.api_key}&language=${this.selectedLanguage}`
         )
         .then((response) => {
+          console.log(response.data);
           // this.movie = response.data;
           this.movie.title = response.data.title
             ? response.data.title
@@ -186,7 +192,7 @@ export default {
             : response.data.first_air_date;
           this.movie.runtime = response.data.runtime
             ? response.data.runtime
-            : "";
+            : response.data.episode_run_time[0];
           this.movie.vote_average = response.data.vote_average;
           this.movie.number_of_seasons = response.data.number_of_seasons
             ? response.data.number_of_seasons
@@ -395,7 +401,7 @@ export default {
         justify-content: flex-start;
         align-items: center;
         color: $bf-text-secondary-color;
-        font-size: $bf-text-size-xSmall;
+        font-size: $bf-text-size-xs;
         font-weight: $bf-text-bold;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -432,11 +438,10 @@ export default {
         justify-content: flex-start;
         align-items: center;
         color: $bf-text-secondary-color;
-        font-size: $bf-text-size-xSmall;
+        font-size: $bf-text-size-xs;
         font-weight: $bf-text-bold;
         text-transform: uppercase;
         letter-spacing: 1px;
-        gap: 15px;
         margin-bottom: 20px;
 
         & p {

@@ -166,13 +166,13 @@ export default {
       transform: translateY(50%);
 
       &-title {
-        font-size: $bf-text-size-medium;
+        font-size: $bf-text-size-md;
         font-weight: $bf-text-bold;
         transition: $bf-transition;
         padding-bottom: 2px;
       }
       &-subtitle {
-        font-size: $bf-text-size-xSmall;
+        font-size: $bf-text-size-xs;
         font-weight: $bf-text-thin;
         transition: $bf-transition;
         padding-bottom: 5px;
@@ -199,10 +199,10 @@ export default {
     &-info {
       &__text {
         &-title {
-          font-size: $bf-text-size-small;
+          font-size: $bf-text-size-sm;
         }
         &-subtitle {
-          font-size: $bf-text-size-xxSmall;
+          font-size: $bf-text-size-xxs;
         }
       }
     }
