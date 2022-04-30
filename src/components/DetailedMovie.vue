@@ -431,12 +431,18 @@ export default {
         align-items: center;
         width: 100%;
         max-width: 100%;
+
+        @media screen and (max-width: $bf-screen-sm) {
+          flex-direction: column;
+          align-items: flex-start;
+        }
       }
       &-additional {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
+        flex-wrap: wrap;
         color: $bf-text-secondary-color;
         font-size: $bf-text-size-xs;
         font-weight: $bf-text-bold;
@@ -444,16 +450,16 @@ export default {
         letter-spacing: 1px;
         margin-bottom: 20px;
 
-        & p {
-          color: $bf-text-secondary-color;
+        // & p {
+        //   color: $bf-text-secondary-color;
 
-          & * {
-            color: $bf-text-secondary-color;
-          }
-        }
-        & > .detailed__card-info__content-additional-valutation {
-          color: $bf-text-valutation-color;
-        }
+        //   & * {
+        //     color: $bf-text-secondary-color;
+        //   }
+        // }
+        // & > .detailed__card-info__content-additional-valutation {
+        //   color: $bf-text-valutation-color;
+        // }
       }
       &-overview {
         margin-top: 10px;

@@ -76,10 +76,10 @@ body {
     width: 24px;
     height: 24px;
   }
-  &:hover {
-    transform: scale(1.1);
-  }
 
+  &:active {
+    transform: scale(0.98);
+  }
   @media screen and (max-width: $bf-screen-sm) {
     font-size: $bf-text-size-sm;
     padding: 0.4em 1em;
@@ -91,10 +91,24 @@ body {
 }
 
 .main-btn {
-  background-color: #fff;
+  background-color: $bf-btn-bg-main;
   color: #000;
+
+  &:hover {
+    background-color: $bf-btn-bg-main-hover;
+  }
+  &:active {
+    background-color: $bf-btn-bg-main-active;
+  }
 }
 .secondary-btn {
-  background-color: $bf-secondary-btn-color;
+  background-color: $bf-btn-bg-secondary;
   color: #fff;
+
+  &:hover {
+    background-color: $bf-btn-bg-secondary-hover;
+  }
+  &:active {
+    background-color: $bf-btn-bg-secondary-active;
+  }
 }
