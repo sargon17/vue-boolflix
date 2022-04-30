@@ -49,6 +49,11 @@
                   :value="movie.vote_average.toString()"
                   :type="'vote_average'"
                 />
+                <chip-element
+                  v-if="movie.networks"
+                  :value="movie.networks"
+                  :type="'networks'"
+                />
               </div>
               <div>
                 <button
@@ -204,6 +209,7 @@ export default {
             "original"
           );
           this.movie.id = response.data.id;
+          this.movie.networks = response.data.networks;
           this.getRecommendations();
           this.getCredit(this.movie.id);
         })
@@ -405,7 +411,7 @@ export default {
         font-weight: $bf-text-bold;
         text-transform: uppercase;
         letter-spacing: 1px;
-        gap: 15px;
+        gap: 10px;
 
         & p {
           color: $bf-text-secondary-color;
@@ -449,6 +455,10 @@ export default {
         text-transform: uppercase;
         letter-spacing: 1px;
         margin-bottom: 20px;
+        @media screen and (max-width: $bf-screen-sm) {
+          align-items: flex-start;
+          gap: 0;
+        }
 
         // & p {
         //   color: $bf-text-secondary-color;
@@ -468,7 +478,6 @@ export default {
         font-weight: $bf-text-thin;
         line-height: 1.2;
         text-align: justify;
-
         p {
           color: $bf-text-secondary-color;
         }
@@ -549,7 +558,7 @@ export default {
         font-size: 1rem;
       }
       &-additional {
-        gap: 10px;
+        gap: 0px;
       }
       &-overview {
         margin-top: 10px;

@@ -1,9 +1,13 @@
 <template>
   <div>
     <div class="chip">
-      <font-awesome-icon v-if="icon" :icon="iconRender(icon)" />
-      <span :class="valueStyles">{{ valueToRender }}</span>
-      <span v-if="unitM">{{ unitM }}</span>
+      <div class="network" v-if="img">
+        <p>Watch it on:</p>
+        <img v-if="img" :src="img" alt="" />
+      </div>
+      <font-awesome-icon v-if="icon && !img" :icon="iconRender(icon)" />
+      <span v-if="!img" :class="valueStyles">{{ valueToRender }}</span>
+      <span v-if="unitM && !img">{{ unitM }}</span>
     </div>
   </div>
 </template>
@@ -16,11 +20,11 @@ export default {
       unitM: "",
       icon: "",
       valueToRender: "",
+      img: "",
     };
   },
   props: {
     value: {
-      type: String,
       required: true,
     },
     type: {
@@ -79,6 +83,13 @@ export default {
           this.icon = "fa-tv";
           this.valueToRender = this.value;
           break;
+        case "networks":
+          this.unitM = "";
+          // this.icon = "fa-tv";
+          this.img = this.getNetworkLogo(this.value[0]);
+          this.valueToRender = this.value[0].name;
+
+          break;
         default:
           this.unitM = "";
           this.icon = "";
@@ -89,6 +100,9 @@ export default {
     },
     dateType(date) {
       return date.split("-").reverse().join("/");
+    },
+    getNetworkLogo(network) {
+      return `https://image.tmdb.org/t/p/w92${network.logo_path}`;
     },
   },
 };
@@ -112,14 +126,31 @@ export default {
   align-items: center;
   gap: 0.2rem;
   cursor: default;
+  flex-wrap: nowrap;
 
   & * {
     transition: $bf-transition;
     color: $bf-text-secondary-color;
   }
+  .network {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    img {
+      // width: 20px;
+      height: 14px;
+      object-fit: cover;
+      opacity: 0.8;
+    }
+  }
 
   &:hover * {
     color: $bf-text-color;
+  }
+  &:hover img {
+    opacity: 1;
   }
   &:hover .valutation-low {
     color: $bf-valutation-low-hover;
