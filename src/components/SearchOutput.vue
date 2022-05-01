@@ -40,18 +40,6 @@
             </option>
           </select>
         </div>
-        <button class="btn secondary-btn">
-          <span> Choose network </span>
-        </button>
-      </div>
-      <div class="search-chips-row">
-        <chip-element
-          v-for="network in selected_networks"
-          :key="network.id"
-          :isBtn="true"
-          :type="'networks'"
-          :value="network"
-        />
       </div>
       <div class="search-out__results">
         <CardComponent
@@ -100,7 +88,6 @@ import { api_key } from "../data/api_key";
 import CardComponent from "./CardComponent.vue";
 import DetailedMovie from "./DetailedMovie.vue";
 import selected_networks from "../data/selected_networks";
-import ChipElement from "./sub_components/ChipElement.vue";
 
 export default {
   name: "SearchOutput",
@@ -132,7 +119,6 @@ export default {
   components: {
     CardComponent,
     DetailedMovie,
-    ChipElement,
   },
   watch: {
     searchValue: function () {
@@ -172,6 +158,7 @@ export default {
           region: "IT",
           sort_by: "popularity.desc",
           genre: this.selectedGenre,
+          with_networks: "3186",
         };
         axios
           .get(`https://api.themoviedb.org/3/search/${this.searchBy}?`, {

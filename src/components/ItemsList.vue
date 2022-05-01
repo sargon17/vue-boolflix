@@ -1,8 +1,21 @@
 <template>
   <div class="items-list">
-    <div class="items-list__title">
-      <h2>{{ title }}</h2>
-      <img :src="moreIcon" alt="" />
+    <div>
+      <div class="items-list__title">
+        <h2>{{ title }}</h2>
+        <img :src="moreIcon" alt="" />
+        <div class="chip-btn-row" v-if="isNetworkSelectable">
+          <h3>Select network</h3>
+          <chip-element
+            v-for="network in selected_networks"
+            :key="network.id"
+            :isBtn="true"
+            :type="'networks'"
+            :value="network"
+            @clicked="networkClicked"
+          />
+        </div>
+      </div>
     </div>
     <div class="items-list__items">
       <button
@@ -52,17 +65,22 @@ import CardComponent from "./CardComponent.vue";
 import moreIcon from "../img/icons/chevron-right-thin.svg";
 import caretRight from "../img/icons/caret-right-fill.svg";
 import caretLeft from "../img/icons/caret-left-fill.svg";
+import ChipElement from "./sub_components/ChipElement.vue";
+// import axios from "axios";
+import selected_networks from "../data/selected_networks";
 
 export default {
   name: "ItemsList",
   components: {
     CardComponent,
+    ChipElement,
   },
   data() {
     return {
       moreIcon,
       caretRight,
       caretLeft,
+      selected_networks,
     };
   },
   props: {
@@ -77,6 +95,11 @@ export default {
     id: {
       type: String,
       required: true,
+    },
+    isNetworkSelectable: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   methods: {
@@ -98,6 +121,10 @@ export default {
       // console.log(data);
       this.$emit("handleCardClick", data);
     },
+    networkClicked(data) {
+      // console.log(data);
+      this.$emit("networkClicked", data);
+    },
   },
 };
 </script>
@@ -113,11 +140,17 @@ export default {
     align-items: center;
     gap: 16px;
     margin-bottom: -26px;
+    z-index: 2;
 
     h2 {
       font-size: $bf-text-size-md;
       font-weight: $bf-text-bold;
     }
+  }
+  .chip-btn-row {
+    display: flex;
+    align-items: center;
+    z-index: 2;
   }
 
   &__card-list {

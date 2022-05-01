@@ -13,6 +13,7 @@
       title="Discover Series"
       :movieList="discoverTv"
       :id="'discoverTv2'"
+      :isNetworkSelectable="true"
     />
     <ItemsList
       @handleCardClick="takeCardData"
@@ -34,6 +35,7 @@
       title="Discover Italian Series"
       :movieList="discoverItalianTv"
       :id="'discoverItalianTv2'"
+      :isNetworkSelectable="true"
     />
     <ItemsList
       @handleCardClick="takeCardData"
@@ -76,6 +78,7 @@
       title="Documentries"
       :movieList="documentary"
       :id="'documentary2'"
+      :isNetworkSelectable="true"
     />
     <ItemsList
       @handleCardClick="takeCardData"
@@ -97,6 +100,8 @@
       title="Popular Series"
       :movieList="popularSeries"
       :id="'popSeries4'"
+      :isNetworkSelectable="true"
+      @networkClicked="setNetwork"
     />
     <DetailedMovie
       :currentMovieId="currentMovieId"
@@ -151,8 +156,8 @@ export default {
       currentMovieType: "",
       language: "it-IT",
       isCardShown: false,
-      networks:
-        "213 || 19 || 5750 || 4774 || 3308 || 3186 || 2739 || 2604 || 2552 || 1567 || 1522 || 1496 || 13 || 47 || 49 || 67 || 453 || 1436 || 4330 || 1024",
+      networks: [],
+      // "213 || 19 || 5750 || 4774 || 3308 || 3186 || 2739 || 2604 || 2552 || 1567 || 1522 || 1496 || 13 || 47 || 49 || 67 || 453 || 1436 || 4330 || 1024"
       childrenNetworks:
         "213 || 5536 || 5526 || 2739 || 2552 || 2534 || 2193 || 794,",
       adultNetworks: "",
@@ -165,37 +170,37 @@ export default {
       api_key,
       language: this.language,
       region: "IT",
-      with_networks: this.networks,
+      with_networks: this.convertArrayToStringNetwork(this.networks),
     });
     this.getElementsList("movie/top_rated", this.topRatedMovies, {
       api_key,
       language: this.language,
       region: "IT",
-      with_networks: this.networks,
+      with_networks: this.convertArrayToStringNetwork(this.networks),
     });
     this.getElementsList("movie/upcoming", this.upcomingMovies, {
       api_key,
       language: this.language,
       region: "IT",
-      with_networks: this.networks,
+      with_networks: this.convertArrayToStringNetwork(this.networks),
     });
     this.getElementsList("movie/upcoming", this.upcomingMoviesUSA, {
       api_key,
       language: this.language,
       region: "US",
-      with_networks: this.networks,
+      with_networks: this.convertArrayToStringNetwork(this.networks),
     });
     this.getElementsList("tv/popular", this.popularSeries, {
       api_key,
       language: this.language,
       region: "US",
-      with_networks: this.networks,
+      with_networks: this.convertArrayToStringNetwork(this.networks),
     });
     this.getElementsList("trending/all/day", this.trandingNow, {
       api_key,
       language: this.language,
       region: "IT",
-      with_networks: this.networks,
+      with_networks: this.convertArrayToStringNetwork(this.networks),
     });
     this.getElementsList("discover/tv", this.discoverTv, {
       api_key,
@@ -203,7 +208,7 @@ export default {
       watch_region: "IT",
       sort_by: "popularity.desc",
       with_genres: "18",
-      with_networks: this.networks,
+      with_networks: this.convertArrayToStringNetwork(this.networks),
     });
     this.getElementsList("discover/tv", this.discoverItalianTv, {
       api_key,
@@ -211,7 +216,7 @@ export default {
       watch_region: "IT",
       sort_by: "popularity.desc",
       with_genres: "18",
-      with_networks: this.networks,
+      with_networks: this.convertArrayToStringNetwork(this.networks),
       with_original_language: "it",
     });
     this.getElementsList("discover/movie", this.cartoons, {
@@ -238,7 +243,7 @@ export default {
       watch_region: "IT",
       sort_by: "popularity.desc",
       with_genres: "80",
-      with_networks: this.networks,
+      with_networks: this.convertArrayToStringNetwork(this.networks),
       // with_original_language: "it",
     });
     this.getElementsList("discover/tv", this.documentary, {
@@ -247,7 +252,7 @@ export default {
       watch_region: "US",
       sort_by: "popularity.desc",
       with_genres: "99",
-      with_networks: this.networks,
+      with_networks: this.convertArrayToStringNetwork(this.networks),
       // with_original_language: "it",
     });
     this.getElementsList("discover/movie", this.horrorMovies, {
@@ -256,7 +261,7 @@ export default {
       watch_region: "US",
       sort_by: "popularity.desc",
       with_genres: "27",
-      with_networks: this.networks,
+      with_networks: this.convertArrayToStringNetwork(this.networks),
       // with_original_language: "it",
     });
     this.getElementsList("discover/tv", this.discoverUkrainianTv, {
@@ -306,6 +311,20 @@ export default {
     },
     closeDetailedWindow() {
       this.isCardShown = false;
+    },
+    setNetwork(network) {
+      if (!this.networks.includes(network)) {
+        this.networks.push(network);
+      } else {
+        this.networks.splice(this.networks.indexOf(network), 1);
+      }
+    },
+    convertArrayToStringNetwork(array) {
+      let string = "";
+      array.forEach((item) => {
+        string += item + "||";
+      });
+      return string;
     },
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="chip">
+    <div class="chip" :class="btnStyles" @click="clicked">
       <div class="network" v-if="img">
         <p v-if="img && !isBtn">Watch it on:</p>
         <img v-if="img" :src="img" alt="" />
@@ -46,6 +46,11 @@ export default {
       required: false,
       default: false,
     },
+    isSelected: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   watch: {
     type() {
@@ -66,6 +71,12 @@ export default {
         "valutation-medium":
           this.type === "vote_average" && val >= 4 && val < 7,
         "valutation-high": this.type === "vote_average" && val >= 7,
+      };
+    },
+    btnStyles() {
+      return {
+        "chip-btn": this.isBtn,
+        // "chip-btn-selected": this.isBtn && this.isSelected,
       };
     },
   },
@@ -132,6 +143,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    clicked() {
+      this.$emit("clicked", this.value);
     },
   },
 };
@@ -202,5 +216,9 @@ export default {
   &-high {
     color: $bf-valutation-high;
   }
+}
+
+.chip-btn {
+  cursor: pointer;
 }
 </style>
