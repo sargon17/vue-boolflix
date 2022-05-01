@@ -1,20 +1,9 @@
 <template>
   <div class="items-list">
-    <div>
-      <div class="items-list__title">
+    <div class="items-list__title">
+      <div>
         <h2>{{ title }}</h2>
-        <img :src="moreIcon" alt="" />
-        <div class="chip-btn-row" v-if="isNetworkSelectable">
-          <h3>Select network</h3>
-          <chip-element
-            v-for="network in selected_networks"
-            :key="network.id"
-            :isBtn="true"
-            :type="'networks'"
-            :value="network"
-            @clicked="networkClicked"
-          />
-        </div>
+        <img :src="moreIcon" alt="" class="more-icon" />
       </div>
     </div>
     <div class="items-list__items">
@@ -65,15 +54,12 @@ import CardComponent from "./CardComponent.vue";
 import moreIcon from "../img/icons/chevron-right-thin.svg";
 import caretRight from "../img/icons/caret-right-fill.svg";
 import caretLeft from "../img/icons/caret-left-fill.svg";
-import ChipElement from "./sub_components/ChipElement.vue";
-// import axios from "axios";
 import selected_networks from "../data/selected_networks";
 
 export default {
   name: "ItemsList",
   components: {
     CardComponent,
-    ChipElement,
   },
   data() {
     return {
@@ -121,10 +107,6 @@ export default {
       // console.log(data);
       this.$emit("handleCardClick", data);
     },
-    networkClicked(data) {
-      // console.log(data);
-      this.$emit("networkClicked", data);
-    },
   },
 };
 </script>
@@ -140,17 +122,33 @@ export default {
     align-items: center;
     gap: 16px;
     margin-bottom: -26px;
-    z-index: 2;
+    // height: 46px;
+    cursor: pointer;
+    // z-index: 4;
+
+    // &:hover .more-icon {
+    //   transform: translate(50px, 0px);
+    // }
+    & div {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 4;
+
+      &:hover {
+        .more-icon {
+          transform: translate(50px, 0px);
+        }
+      }
+    }
+    .more-icon {
+      transition: $bf-transition;
+    }
 
     h2 {
       font-size: $bf-text-size-md;
       font-weight: $bf-text-bold;
     }
-  }
-  .chip-btn-row {
-    display: flex;
-    align-items: center;
-    z-index: 2;
   }
 
   &__card-list {

@@ -100,7 +100,7 @@ export default {
 .card {
   width: 165px;
   min-width: 165px;
-  aspect-ratio: 1/1.7;
+  aspect-ratio: 1/1.5;
   border-radius: 8px;
   z-index: 2;
   position: relative;
@@ -122,7 +122,7 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     width: 165px;
-    aspect-ratio: 1/1.7;
+    aspect-ratio: 1/1.5;
     position: relative;
 
     & img {
@@ -195,7 +195,7 @@ export default {
 
     &-img {
       width: 100%;
-      aspect-ratio: 1/1.7;
+      aspect-ratio: 1/1.5;
     }
     &-info {
       &__text {

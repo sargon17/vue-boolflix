@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="chip" :class="btnStyles" @click="clicked">
+    <div class="chip" :class="btnStyles">
       <div class="network" v-if="img">
         <p v-if="img && !isBtn">Watch it on:</p>
         <img v-if="img" :src="img" alt="" />
@@ -143,9 +143,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    clicked() {
-      this.$emit("clicked", this.value);
     },
   },
 };
