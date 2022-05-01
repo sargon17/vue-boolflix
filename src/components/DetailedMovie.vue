@@ -21,9 +21,12 @@
                 {{ name }}
               </p>
             </div>
-            <h2 class="detailed__card-info__content-title">
+            <a
+              :href="movie.homepage"
+              class="detailed__card-info__content-title"
+            >
               {{ movie.title ? movie.title : movie.original_title }}
-            </h2>
+            </a>
             <h6 class="detailed__card-info__content-subtitle">
               {{ movie.tagline }}
             </h6>
@@ -50,8 +53,9 @@
                   :type="'vote_average'"
                 />
                 <chip-element
-                  v-if="movie.networks"
-                  :value="movie.networks"
+                  v-for="network in movie.networks"
+                  :key="network.id"
+                  :value="network"
                   :type="'networks'"
                 />
               </div>
@@ -208,6 +212,7 @@ export default {
             response.data.backdrop_path,
             "original"
           );
+          this.movie.homepage = response.data.homepage;
           this.movie.id = response.data.id;
           this.movie.networks = response.data.networks;
           this.getRecommendations();
@@ -391,8 +396,9 @@ export default {
     }
 
     .detailed__card-info-img {
-      width: 200px;
-      aspect-ratio: 1/1.8;
+      width: 100%;
+      max-width: 300px;
+      aspect-ratio: 1/1.6;
       object-fit: cover;
       border-radius: 10px;
     }
@@ -423,6 +429,7 @@ export default {
         font-weight: $bf-text-bold;
         color: #fff;
         text-transform: uppercase;
+        text-decoration: none;
       }
       &-subtitle {
         font-size: 1.2rem;

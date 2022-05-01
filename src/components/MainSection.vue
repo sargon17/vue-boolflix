@@ -152,9 +152,12 @@ export default {
       language: "it-IT",
       isCardShown: false,
       networks:
-        "213 || 19 || 5750 || 4774 || 3308 || 3186 || 2739 || 2604 || 2552 || 1567 || 1522 || 1496 || 13",
+        "213 || 19 || 5750 || 4774 || 3308 || 3186 || 2739 || 2604 || 2552 || 1567 || 1522 || 1496 || 13 || 47 || 49 || 67 || 453 || 1436 || 4330 || 1024",
       childrenNetworks:
         "213 || 5536 || 5526 || 2739 || 2552 || 2534 || 2193 || 794,",
+      adultNetworks: "",
+      controlNetworks: "1024",
+      controlChildrenNetworks: "5534",
     };
   },
   mounted() {
@@ -188,7 +191,7 @@ export default {
       region: "US",
       with_networks: this.networks,
     });
-    this.getElementsList("trending/all/week", this.trandingNow, {
+    this.getElementsList("trending/all/day", this.trandingNow, {
       api_key,
       language: this.language,
       region: "IT",

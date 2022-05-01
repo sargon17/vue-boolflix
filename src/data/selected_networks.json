@@ -1,0 +1,50 @@
+[
+  {
+    "name": "netflix",
+    "id": "213"
+  },
+  {
+    "name": "comedy central",
+    "id": "47"
+  },
+  {
+    "name": "HBO",
+    "id": "49"
+  },
+  {
+    "name": "showtime",
+    "id": "67"
+  },
+  {
+    "name": "science",
+    "id": "226"
+  },
+  {
+    "name": "hulu",
+    "id": "453"
+  },
+  {
+    "name": "youtube premium",
+    "id": "1436"
+  },
+  {
+    "name": "apple",
+    "id": "2552"
+  },
+  {
+    "name": "disney plus",
+    "id": "2739"
+  },
+  {
+    "name": "hbo max",
+    "id": "3186"
+  },
+  {
+    "name": "paramount plus",
+    "id": "4330"
+  },
+  {
+    "name": "amazon prime",
+    "id": "1024"
+  }
+]

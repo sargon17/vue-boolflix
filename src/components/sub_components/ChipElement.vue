@@ -2,7 +2,7 @@
   <div>
     <div class="chip">
       <div class="network" v-if="img">
-        <p>Watch it on:</p>
+        <p v-if="img && !isBtn">Watch it on:</p>
         <img v-if="img" :src="img" alt="" />
       </div>
       <font-awesome-icon v-if="icon && !img" :icon="iconRender(icon)" />
@@ -13,6 +13,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import { api_key } from "../../data/api_key";
+
 export default {
   name: "ChipElement",
   data() {
@@ -21,6 +24,7 @@ export default {
       icon: "",
       valueToRender: "",
       img: "",
+      api_key,
     };
   },
   props: {
@@ -33,6 +37,11 @@ export default {
       default: "",
     },
     isDeletable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    isBtn: {
       type: Boolean,
       required: false,
       default: false,
@@ -84,10 +93,15 @@ export default {
           this.valueToRender = this.value;
           break;
         case "networks":
-          this.unitM = "";
+          if (this.isBtn) {
+            this.getNetworkData(this.value.id);
+          } else {
+            this.unitM = "";
+            console.log(this.value);
+            this.img = this.getNetworkLogo(this.value);
+            this.valueToRender = this.value.name;
+          }
           // this.icon = "fa-tv";
-          this.img = this.getNetworkLogo(this.value[0]);
-          this.valueToRender = this.value[0].name;
 
           break;
         default:
@@ -103,6 +117,21 @@ export default {
     },
     getNetworkLogo(network) {
       return `https://image.tmdb.org/t/p/w92${network.logo_path}`;
+    },
+    getNetworkData(id) {
+      let params = {
+        api_key: this.api_key,
+      };
+      console.log(this.api_key);
+      axios
+        .get(`https://api.themoviedb.org/3/network/${id}?`, { params })
+        .then((res) => {
+          console.log(res.data);
+          this.img = this.getNetworkLogo(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
