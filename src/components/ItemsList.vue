@@ -1,7 +1,7 @@
 <template>
   <div class="items-list">
     <div class="items-list__title">
-      <div>
+      <div @click="moreClicked">
         <h2>{{ title }}</h2>
         <img :src="moreIcon" alt="" class="more-icon" />
       </div>
@@ -46,6 +46,11 @@
         <img :src="caretRight" alt="" />
       </button>
     </div>
+    <more-like-this
+      v-if="mltIsOpen"
+      :data="requestData"
+      @closePage="moreClicked"
+    />
   </div>
 </template>
 
@@ -55,11 +60,13 @@ import moreIcon from "../img/icons/chevron-right-thin.svg";
 import caretRight from "../img/icons/caret-right-fill.svg";
 import caretLeft from "../img/icons/caret-left-fill.svg";
 import selected_networks from "../data/selected_networks";
+import MoreLikeThis from "./MoreLikeThis.vue";
 
 export default {
   name: "ItemsList",
   components: {
     CardComponent,
+    MoreLikeThis,
   },
   data() {
     return {
@@ -67,6 +74,9 @@ export default {
       caretRight,
       caretLeft,
       selected_networks,
+      isDataComplete: false,
+      // more like this (mlt)
+      mltIsOpen: false,
     };
   },
   props: {
@@ -82,12 +92,12 @@ export default {
       type: String,
       required: true,
     },
-    isNetworkSelectable: {
-      type: Boolean,
-      required: false,
-      default: false,
+    requestData: {
+      type: Object,
+      // required: true,
     },
   },
+
   methods: {
     scrollRight() {
       let element = document.getElementById(this.id);
@@ -106,6 +116,10 @@ export default {
     takeCardData(data) {
       // console.log(data);
       this.$emit("handleCardClick", data);
+    },
+    moreClicked() {
+      this.mltIsOpen = !this.mltIsOpen;
+      // this.$emit("moreClicked");
     },
   },
 };

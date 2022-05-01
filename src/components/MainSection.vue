@@ -4,98 +4,112 @@
       @handleCardClick="takeCardData"
       v-if="isMovieShown"
       title="Popular Movies"
-      :movieList="popularMovies"
+      :movieList="popularMovies.results"
       :id="'popMovies1'"
+      :requestData="popularMovies.requestData"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isSeriesShown"
       title="Discover Series"
-      :movieList="discoverTv"
+      :movieList="discoverTv.results"
       :id="'discoverTv2'"
+      :requestData="discoverTv.requestData"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isMovieShown"
       title="Cartoons Movies"
-      :movieList="cartoons"
+      :movieList="cartoons.results"
+      :requestData="cartoons.requestData"
       :id="'cartoons'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isSeriesShown"
       title="Cartoons Series"
-      :movieList="cartoonsTv"
+      :movieList="cartoonsTv.results"
+      :requestData="cartoonsTv.requestData"
       :id="'cartoonsTv'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isSeriesShown"
       title="Discover Italian Series"
-      :movieList="discoverItalianTv"
+      :movieList="discoverItalianTv.results"
+      :requestData="discoverItalianTv.requestData"
       :id="'discoverItalianTv2'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isMovieShown"
       title="Horror Night"
-      :movieList="horrorMovies"
+      :movieList="horrorMovies.results"
+      :requestData="horrorMovies.requestData"
       :id="'horrorMovies2'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isMovieShown && isSeriesShown"
       title="Tranding Now"
-      :movieList="trandingNow"
+      :movieList="trandingNow.results"
+      :requestData="trandingNow.requestData"
       :id="'tranding2'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isSeriesShown"
       title="Discover Ukrainian Series"
-      :movieList="discoverUkrainianTv"
+      :movieList="discoverUkrainianTv.results"
+      :requestData="discoverUkrainianTv.requestData"
       :id="'discoverUkrainianTv2'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isMovieShown"
       title="Upcoming Movies in Italy"
-      :movieList="upcomingMovies"
+      :movieList="upcomingMovies.results"
+      :requestData="upcomingMovies.requestData"
       :id="'upcoming3'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isMovieShown"
       title="Upcoming Movies in USA"
-      :movieList="upcomingMoviesUSA"
+      :movieList="upcomingMoviesUSA.results"
+      :requestData="upcomingMoviesUSA.requestData"
       :id="'upcomingUSA3'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isSeriesShown"
       title="Documentries"
-      :movieList="documentary"
+      :movieList="documentary.results"
+      :requestData="documentary.requestData"
       :id="'documentary2'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isMovieShown"
       title="It's Crime Time"
-      :movieList="crimeMovie"
+      :movieList="crimeMovie.results"
+      :requestData="crimeMovie.requestData"
       :id="'crimeMovie5'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isMovieShown"
       title="Top Rated Movies"
-      :movieList="topRatedMovies"
+      :movieList="topRatedMovies.results"
+      :requestData="topRatedMovies.requestData"
       :id="'rated5'"
     />
     <ItemsList
       @handleCardClick="takeCardData"
       v-if="isSeriesShown"
       title="Popular Series"
-      :movieList="popularSeries"
+      :movieList="popularSeries.results"
+      :requestData="popularSeries.requestData"
       :id="'popSeries4'"
     />
     <DetailedMovie
@@ -136,32 +150,31 @@ export default {
     return {
       api_key,
       selected_networks,
-      popularMovies: [],
-      trandingNow: [],
-      topRatedMovies: [],
-      upcomingMovies: [],
-      upcomingMoviesUSA: [],
-      popularSeries: [],
-      discoverTv: [],
-      discoverItalianTv: [],
-      discoverUkrainianTv: [],
-      cartoons: [],
-      cartoonsTv: [],
-      crimeMovie: [],
-      documentary: [],
-      horrorMovies: [],
+      popularMovies: { results: [] },
+      trandingNow: { results: [] },
+      topRatedMovies: { results: [] },
+      upcomingMovies: { results: [] },
+      upcomingMoviesUSA: { results: [] },
+      popularSeries: { results: [] },
+      discoverTv: { results: [] },
+      discoverItalianTv: { results: [] },
+      discoverUkrainianTv: { results: [] },
+      cartoons: { results: [] },
+      cartoonsTv: { results: [] },
+      crimeMovie: { results: [] },
+      documentary: { results: [] },
+      horrorMovies: { results: [] },
       currentMovieId: 0,
       currentMovieType: "",
       language: "it-IT",
       isCardShown: false,
       networks: "",
       childrenNetworks:
-        "213 || 5536 || 5526 || 2739 || 2552 || 2534 || 2193 || 794,",
+        "213 || 5536 || 5526 || 2739 || 2552 || 2534 || 2193 || 794",
     };
   },
   mounted() {
     this.networks = fromArrayToString(this.selected_networks);
-    console.log(this.networks);
     this.getElementsList("movie/popular", this.popularMovies, {
       api_key,
       language: this.language,
@@ -275,15 +288,18 @@ export default {
         .then((response) => {
           this.results = response.data.results;
           this.filterData(this.results, elementsList);
+          elementsList.requestData = { api_call, params };
+          console.log(elementsList);
         })
         .catch((error) => {
           console.log(error);
         });
     },
     filterData(results, elementsList) {
+      elementsList.results = [];
       results.forEach((movie) => {
         if (movie.poster_path && (movie.title || movie.name)) {
-          elementsList.push({
+          elementsList.results.push({
             title: movie.title || movie.name,
             id: movie.id,
             media_type: movie.title ? "movie" : "tv",
