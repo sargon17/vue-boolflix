@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isShown">
+  <div v-if="isShown" @scroll="(e) => mangeScroll(e)">
     <div class="detailed__bg" @click="closeWindow"></div>
     <div class="detailed__card">
       <img :src="bgImage" alt="" />
@@ -316,6 +316,10 @@ export default {
           });
         }
       });
+    },
+    mangeScroll(e) {
+      // non default scroll
+      e.preventDefault();
     },
   },
 };

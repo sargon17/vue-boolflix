@@ -161,17 +161,30 @@ export default {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  z-index: 8;
+  z-index: 10;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   overflow: auto;
 
   .mlt-header {
+    position: fixed;
+    top: 0rem;
+    width: 100%;
+    height: 60px;
+    z-index: 9;
+
+    background: rgb(0, 0, 0);
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 1) 5%,
+      rgba(255, 255, 255, 0) 100%
+    );
+
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem 2.5rem 1rem;
+    padding: 0 2rem;
     h2 {
       font-size: 1.5rem;
       font-weight: bold;
