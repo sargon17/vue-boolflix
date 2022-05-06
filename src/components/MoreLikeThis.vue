@@ -32,11 +32,11 @@
           :origin_country="origin_country"
           :media_type="media_type"
         />
-        <div class="mlt__more-btn">
-          <button class="btn secondary-btn" @click="getMoreResults">
-            Mostra altri risultati
-          </button>
-        </div>
+      </div>
+      <div class="mlt__more-btn">
+        <button class="btn secondary-btn" @click="getMoreResults">
+          Mostra altri risultati
+        </button>
       </div>
     </div>
     <DetailedMovie
@@ -166,6 +166,7 @@ export default {
   justify-content: center;
   align-items: flex-end;
   overflow: auto;
+
   .mlt-header {
     display: flex;
     justify-content: space-between;
@@ -230,11 +231,46 @@ export default {
       }
     }
   }
+
+  @media screen and (max-width: $bf-screen-sm) {
+    padding: 1rem 0 2rem 0;
+  }
 }
 
-// .close-btn {
-//   position: fixed;
-//   top: 10vh;
-//   right: 10px;
-// }
+.mlt__more-btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+
+  button {
+    display: flex;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+    color: $bf-white-normal-hover;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    & * {
+      color: $bf-white-normal-hover;
+      font-size: 1rem;
+      transition: $bf-transition;
+    }
+    &:hover {
+      color: $bf-white-normal;
+      background-color: $bf-grey-transparent;
+
+      & * {
+        color: $bf-white-normal;
+      }
+    }
+  }
+  @media screen and (max-width: $bf-screen-sm) {
+    margin: 2rem 0 4rem 0;
+  }
+}
 </style>
