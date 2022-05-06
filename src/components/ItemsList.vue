@@ -49,6 +49,7 @@
     <more-like-this
       v-if="mltIsOpen"
       :data="requestData"
+      :title="title"
       @closePage="moreClicked"
     />
   </div>

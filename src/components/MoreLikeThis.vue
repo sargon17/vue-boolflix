@@ -1,10 +1,13 @@
 <template>
   <div class="mlt-section" id="moreLikeThis" @wheel="(e) => handleScroll(e)">
     <div class="mlt-container">
-      <div class="close-btn">
-        <button class="icon-btn" @click="closePage">
-          <font-awesome-icon icon="fa-solid fa-xmark" />
-        </button>
+      <div class="mlt-header">
+        <h2>{{ title }}</h2>
+        <div class="close-btn">
+          <button @click="closePage">
+            <font-awesome-icon icon="fa-solid fa-xmark" />
+          </button>
+        </div>
       </div>
       <div class="cards-grid">
         <card-component
@@ -69,6 +72,10 @@ export default {
   props: {
     data: {
       type: Object,
+      required: true,
+    },
+    title: {
+      type: String,
       required: true,
     },
   },
@@ -159,6 +166,46 @@ export default {
   justify-content: center;
   align-items: flex-end;
   overflow: auto;
+  .mlt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem 2.5rem 1rem;
+    h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+    .close-btn {
+      button {
+        display: flex;
+        padding: 1rem;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        color: $bf-white-normal-hover;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+        & * {
+          color: $bf-white-normal-hover;
+          font-size: 1rem;
+          transition: $bf-transition;
+        }
+        &:hover {
+          color: $bf-white-normal;
+          background-color: $bf-grey-transparent;
+
+          & * {
+            color: $bf-white-normal;
+          }
+        }
+      }
+    }
+  }
 
   .mlt-container {
     height: 90vh;
@@ -170,23 +217,24 @@ export default {
       justify-content: flex-start;
       align-items: flex-start;
       flex-wrap: wrap;
-      margin: 0 64px;
+      padding: 0 64px;
       gap: 4px;
       // max-width: 100%;
       overflow: auto;
       @media screen and (max-width: $bf-screen-sm) {
-        margin: 0;
+        padding: 0;
         width: 100%;
-        justify-content: space-evenly;
+        justify-content: center;
+        gap: 8px;
         align-items: start;
       }
     }
   }
 }
 
-.close-btn {
-  position: fixed;
-  top: 10vh;
-  right: 10px;
-}
+// .close-btn {
+//   position: fixed;
+//   top: 10vh;
+//   right: 10px;
+// }
 </style>

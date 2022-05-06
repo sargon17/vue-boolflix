@@ -3,7 +3,7 @@
 $bf-background-color: #141414;
 $bf-background-color-transparent: #e2e2e225;
 $bf-netflix-color: #e50914;
-$bf-secondary-btn-color: rgba(255, 255, 255, 0.5);
+$bf-secondary-btn-color: rgba(204, 255, 255, 0.5);
 
 // white
 $bf-white-normal: rgb(255, 255, 255);
@@ -14,6 +14,11 @@ $bf-white-normal-active: rgb(204, 204, 204);
 $bf-white-transparent: rgba(255, 255, 255, 0.5);
 $bf-white-transparent-hover: rgba(230, 230, 230, 0.5);
 $bf-white-transparent-active: rgba(204, 204, 204, 0.5);
+
+// grey transparent
+$bf-grey-transparent: rgba(255, 255, 255, 0.2);
+$bf-grey-transparent-hover: rgba(230, 230, 230, 0.2);
+$bf-grey-transparent-active: rgba(204, 204, 204, 0.2);
 
 // dark grey
 $bf-grey-normal: rgb(45, 45, 45);
