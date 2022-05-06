@@ -158,7 +158,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  overflow: hidden;
+  overflow: auto;
 
   .mlt-container {
     height: 90vh;
@@ -172,8 +172,14 @@ export default {
       flex-wrap: wrap;
       margin: 0 64px;
       gap: 4px;
-      max-width: 100%;
+      // max-width: 100%;
       overflow: auto;
+      @media screen and (max-width: $bf-screen-sm) {
+        margin: 0;
+        width: 100%;
+        justify-content: space-evenly;
+        align-items: start;
+      }
     }
   }
 }
